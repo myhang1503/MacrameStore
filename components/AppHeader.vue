@@ -1,25 +1,25 @@
-<template>
-    <header class="w-full">
-      <!-- Announcement bar -->
-      <div class="text-center">
-        <hr class="border-t border-gray-200" />
-        <ULink to="/" class="inline-flex items-center gap-2 py-2 text-lg font-sans text-gray-700 hover:text-primary-500">
-          Welcome to HP Macrame!
-          <Icon name="heroicons:arrow-right" class="w-5 h-5 text-gray-700 hover:text-primary-500" />
-        </ULink>
-        <hr class="border-t border-gray-200" />
-      </div>
-      <UContainer class="py-4 flex items-center justify-between">
-    <!-- Logo -->
-    <div class="text-2xl font-bold">
-      <nuxt-link to="/">MyShop</nuxt-link>
-    </div>
-    <!-- Shopping Cart Icon -->
-    <div>
-      <nuxt-link to="/cart">
-        <Icon name="heroicons:shopping-cart" class="w-6 h-6 text-gray-800 hover:text-primary-500" />
-      </nuxt-link>
-    </div>
-  </UContainer>
+﻿<template>
+    <header class="w-full flex items-center justify-between px-6 py-4 bg-white">
+        <!-- Logo -->
+        <div class="text-2xl font-bold text-brown-700 flex items-center space-x-2">
+            <span>🧵</span>
+        </div>
+
+        <!-- Menu và Sign In -->
+        <div class="flex items-center justify-between w-full ml-8">
+            <!-- Menu sát trái -->
+            <nav class="flex space-x-6 text-gray-700 font-medium">
+                <NuxtLink to="/learn">Learn</NuxtLink>
+                <NuxtLink to="/shop">Shop</NuxtLink>
+                <NuxtLink to="/explore">Explore</NuxtLink>
+                <NuxtLink to="/support">Support</NuxtLink>
+            </nav>
+
+            <!-- Sign In sát phải -->
+            <NuxtLink to="/login"
+                      class="border px-4 py-1 rounded-full text-sm ml-auto">
+                Sign In
+            </NuxtLink>
+        </div>
     </header>
 </template>
