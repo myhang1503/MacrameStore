@@ -9,5 +9,17 @@
         </ULink>
         <hr class="border-t border-gray-200" />
       </div>
+      <UContainer class="py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="text-2xl font-bold">
+      <nuxt-link to="/">MyShop</nuxt-link>
+    </div>
+    <!-- Shopping Cart Icon -->
+    <div>
+      <nuxt-link to="/cart">
+        <Icon name="heroicons:shopping-cart" class="w-6 h-6 text-gray-800 hover:text-primary-500" />
+      </nuxt-link>
+    </div>
+  </UContainer>
     </header>
 </template>
