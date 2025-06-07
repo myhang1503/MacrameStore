@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-gray-50 py-10 px-5 w-full text-gray-700 font-sans">
+    <footer class="py-10 px-5 w-full text-gray-700 font-sans">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
         <!-- Tên thương hiệu và mô tả -->
         <div class="footer-section">
