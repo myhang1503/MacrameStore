@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "@nuxt/ui";
 .flying-image {
     border-radius: 50%;
@@ -13,7 +13,18 @@
     -webkit-appearance: none;
     margin: 0;
 }
-
 .no-spinner {
     -moz-appearance: textfield; /* Firefox */
+}
+:root {
+    --color-primary: #1a1a1a; /* tương ứng bg-orange-500 */
+}
+.root-bg {
+    background-color: var(--color-primary);
+}
+.root-text {
+    color: var(--color-primary);
+}
+.root-border {
+    border: 1px solid var(--color-primary);
 }

@@ -1,28 +1,30 @@
 ﻿<template>
-    <header class="sticky top-0 z-50 w-full px-6 py-3 flex items-center justify-between bg-[#dcd2c8]">
-        <!-- Bên trái: Logo + Menu -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 p-2">
+    <header class="sticky top-0 z-50 w-full px-6 py-3 flex items-center justify-between bg-[#e8e9e3]">
+        <!-- Logo căn giữa -->
+        <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 font-bold text-lg">
             <NuxtLink to="/" class="flex items-center gap-2 font-bold text-lg">
-                <Icon name="mdi:alpha-m-box" class="text-2xl" />
-                Hằng Phạm Macrame
+                <img src="/product_Image/logo.jpg" class="w-14 h-14 object-contain" />
+                HP Macrame
             </NuxtLink>
-            <span class="text-sm text-gray-500 sm:ml-2">Handcrafted with love, inspired by nature</span>
+        </div>
 
-            <!--<nav class="flex gap-4 text-sm font-medium text-gray-600">
-                <NuxtLink to="/learn" class="hover:text-black">Learn</NuxtLink>
-                <NuxtLink to="/shop" class="hover:text-black">Shop</NuxtLink>
-                <NuxtLink to="/explore" class="hover:text-black">Explore</NuxtLink>
-                <NuxtLink to="/support" class="hover:text-black">Support</NuxtLink>
-            </nav>-->
+        <!-- Bên trái: Menu -->
+        <div class="flex flex-col items-center justify-center sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 p-2">
+            <nav class="flex gap-4 text-sm font-medium text-gray-600">
+                <NuxtLink to="/learn">Learn</NuxtLink>
+                <NuxtLink to="/shop">Shop</NuxtLink>
+                <NuxtLink to="/explore">Explore</NuxtLink>
+                <NuxtLink to="/support">Support</NuxtLink>
+            </nav>
         </div>
 
         <!-- Bên phải: Sign In + Cart -->
         <div class="flex items-center gap-4">
             <div class="mt-2 sm:mt-0 sm:ml-auto relative">
-                <button @click="toggleCart" class="relative gap-2 w-10 h-8 flex items-center justify-center bg-orange-500 text-white hover:bg-orange-600 transition">
-                    <Icon name="lucide:shopping-cart" class="w-6 h-6 cart-icon" />
+                <button @click="toggleCart" class="relative gap-2 w-10 h-8 flex items-center justify-center root-bg text-white transition">
+                    <Icon name="lucide:shopping-cart" class="cart-icon" />
                 </button>
-                <span v-if="cartItems.length > 0" class="absolute -top-1 -right-1 text-[10px] bg-white text-orange-600 rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                <span v-if="cartItems.length > 0" class="absolute -top-1 -right-1 text-[12px] bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">
                     {{ cartItems.length }}
                 </span>
 
@@ -51,7 +53,7 @@
                                         <button @click="increaseQty(item)" class="w-7 h-7 text-base bg-gray-200 rounded">+</button>
                                     </div>
                                 </div>
-                                <button @click="removeItem(item)" class="text-red-400 hover:text-red-600 text-sm">✕</button>
+                                <button @click="removeItem(item)" class="text-red-400 text-sm">✕</button>
                             </div>
                         </div>
 
@@ -62,7 +64,7 @@
                                 <span class="text-orange-600">{{ totalPrice.toLocaleString() }}₫</span>
                             </div>
                             <button class="w-full px-4 py-2 text-sm transition
-                 bg-orange-500 text-white hover:bg-orange-600
+                 root-bg text-white
                  disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                     :disabled="cartItems.length === 0">
                                 Thanh toán

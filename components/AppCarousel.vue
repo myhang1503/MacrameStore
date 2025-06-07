@@ -10,7 +10,7 @@
                     <!-- Ảnh chính -->
                     <img :src="`/${product.main_image}`"
                          alt="Product"
-                         class="w-full h-full object-cover" />
+                         class="w-full h-full object-contain" />
 
                     <!-- Badge góc trên trái -->
                     <!--<div class="absolute top-3 left-3 flex flex-col gap-2 z-10">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="flex justify-center mt-3">
                             <button @click="(e) => { addToCart(product); animateAddToCart(e,product); }"
-                                    class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap bg-orange-500 text-white transition">
+                                    class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap bg-white text-black transition">
                                 <Icon name="lucide:shopping-cart" class="w-4 h-4" />
                                 Thêm vào giỏ hàng
                             </button>

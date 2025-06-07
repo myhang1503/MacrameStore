@@ -17,12 +17,12 @@
 
                     <div class="px-3 pt-2 pb-3 text-center flex flex-col justify-between h-[120px]">
                         <div>
-                            <p class="text-sm font-medium truncate">{{ product.name }}</p>
+                            <p class="text-sm font-medium truncate root-text">{{ product.name }}</p>
                             <div class="flex flex-col items-center mt-1">
                                 <p v-if="product.original_price" class="line-through text-gray-400 text-xs">
                                     {{ product.original_price.toLocaleString() }} đ
                                 </p>
-                                <p class="text-orange-500 font-bold text-sm">
+                                <p class="root-text font-bold text-sm">
                                     {{ product.price.toLocaleString() }} đ
                                 </p>
                             </div>
@@ -33,8 +33,8 @@
                             <button @click="(e) => { addToCart(product); animateAddToCart(e,product); }"
                                     class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1
                                           whitespace-nowrap
-                                          border border-orange-500 text-orange-500
-                                          hover:bg-orange-500 hover:text-white transition">
+                                          root-border root-text
+                                          transition">
                                 <Icon name="lucide:shopping-cart" class="w-4 h-4" />
                                 Thêm vào giỏ hàng
                             </button>
