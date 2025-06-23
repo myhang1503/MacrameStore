@@ -1,7 +1,7 @@
 ﻿<template>
     <div v-if="product" class="max-w-4xl mx-auto px-4 py-10">
         <div class="flex flex-col md:flex-row gap-8">
-            <img :src="product.image_url || '/images/placeholder.jpg'"
+            <img :src="product.main_image || '/images/placeholder.jpg'"
                  class="w-full md:w-1/2 rounded-xl shadow object-cover" />
             <div class="flex-1">
                 <h2 class="text-3xl font-bold mb-2">{{ product.name }}</h2>
