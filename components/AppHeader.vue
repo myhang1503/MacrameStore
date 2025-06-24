@@ -86,6 +86,31 @@
     </header>
     <CheckoutPopup :show="showCheckout" :cart-items="cartItems" @close="showCheckout = false"
         @submit="handleCheckoutSubmit" />
+
+    <div v-if="isLoading"
+        class="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center text-white text-lg">
+        <div class="flex flex-col items-center">
+            <!-- LOGO -->
+            <video src="/loading-logo.mp4" autoplay loop muted playsinline
+                class="w-32 h-32 mb-4 object-contain"></video>
+            <!-- TEXT -->
+            <p class="text-white text-lg font-semibold mb-1">
+                {{ loadingMessage }}
+            </p>
+
+            <!-- Mô tả phụ -->
+            <p class="text-white text-sm" v-if="loadingStatus === 'processing'">
+                Vui lòng không tắt trình duyệt hoặc làm mới trang.
+            </p>
+
+            <!-- Nút đóng -->
+            <button v-if="loadingStatus !== 'processing'" @click="isLoading = false"
+                class="mt-4 px-4 py-2 bg-white text-black rounded hover:bg-gray-100 transition">
+                Đóng </button>
+        </div>
+    </div>
+
+
 </template>
 
 <script setup>
@@ -97,12 +122,14 @@ const { public: { apiBaseUrl } } = useRuntimeConfig()
 
 const showCart = ref(false)
 const cartItems = inject('cartItems', [])
-
-
+const isLoading = ref(false);
+const loadingStatus = ref('processing'); // 'processing', 'success', 'error'
+const loadingMessage = ref('Đang xử lý đơn hàng...');
 
 // Check out
 const showCheckout = ref(false)
 const handleCheckoutSubmit = (orderData) => {
+    isLoading.value = true;
     fetch(`${apiBaseUrl}/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -114,11 +141,9 @@ const handleCheckoutSubmit = (orderData) => {
                 throw new Error(data.error || "Lỗi không xác định")
             }
 
-            if (orderData.payment_method === 'COD') {
-                alert("✅ Đặt hàng thành công. Vui lòng kiểm tra email để theo dõi đơn hàng")
-            } else {
-                alert("✅ Đặt hàng thành công. Vui lòng kiểm tra email thanh toán qua chuyển khoản")
-            }
+            loadingStatus.value = 'success';
+            loadingMessage.value = "Đặt hàng thành công. Vui lòng kiểm tra email để theo dõi đơn hàng";
+
 
             localStorage.removeItem('cart')
             clearCart()
@@ -126,7 +151,8 @@ const handleCheckoutSubmit = (orderData) => {
             showCheckout.value = false
         })
         .catch(err => {
-            alert("❌ Lỗi khi đặt hàng: " + err.message)
+            loadingStatus.value = 'error';
+            loadingMessage.value = 'Lỗi khi đặt hàng: ' + err.message;
         })
 }
 function toggleCart() {

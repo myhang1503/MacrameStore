@@ -34,36 +34,55 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Họ tên người nhận <b
                                 class="text-red-600">*</b></label>
-                        <input v-model="form.buyer_name" class="border p-2 rounded w-full" />
+                        <input v-model="form.buyer_name"
+                            :class="['border p-2 rounded w-full', errorFields.buyer_name ? 'border-red-500' : '']" />
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Email người nhận <b
                                 class="text-red-600">*</b></label>
-                        <input v-model="form.receiver_email" type="email" class="border p-2 rounded w-full" />
+                        <input v-model="form.receiver_email" type="email"
+                            :class="['border p-2 rounded w-full', errorFields.receiver_email ? 'border-red-500' : '']" />
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Số điện thoại <b
                                 class="text-red-600">*</b></label>
-                        <input v-model="form.receiver_phone" class="border p-2 rounded w-full" />
+                        <input v-model="form.receiver_phone"
+                            @input="form.receiver_phone = form.receiver_phone.replace(/\D/g, '')"
+                            :class="['border p-2 rounded w-full', errorFields.receiver_phone ? 'border-red-500' : '']" />
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Địa chỉ nhận hàng <b
                                 class="text-red-600">*</b></label>
-                        <input v-model="form.shipping_address" class="border p-2 rounded w-full" />
+                        <input v-model="form.shipping_address"
+                            :class="['border p-2 rounded w-full', errorFields.shipping_address ? 'border-red-500' : '']" />
+                    </div>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" v-model="form.invoice_required" />
+                        Yêu cầu xuất hóa đơn VAT
+                    </label>
+                    <div v-if="form.invoice_required">
+                        <label class="block text-sm font-medium mb-1">Tên công ty<b class="text-red-600">*</b></label>
+                        <input v-model="form.buyer_company"
+                            :class="['border p-2 rounded w-full', errorFields.buyer_company ? 'border-red-500' : '']" />
+                    </div>
+                    <div v-if="form.invoice_required">
+                        <label class="block text-sm font-medium mb-1">Địa chỉ công ty<b
+                                class="text-red-600">*</b></label>
+                        <input v-model="form.company_address"
+                            :class="['border p-2 rounded w-full', errorFields.company_address ? 'border-red-500' : '']" />
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Tên công ty (không bắt buộc)</label>
-                        <input v-model="form.buyer_company" class="border p-2 rounded w-full" />
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Mã số thuế công ty/Mã số thuế cá nhân<b
-                                v-if="form.invoice_required" class="text-red-600">*</b></label>
-                        <input v-model="form.buyer_tax_code" class="border p-2 rounded w-full"
+                        <label class="block text-sm font-medium mb-1">
+                            <span v-if="form.invoice_required">Mã số thuế công ty <b class="text-red-600">*</b></span>
+                            <span v-else>Mã số thuế cá nhân</span>
+                        </label>
+                        <input v-model="form.buyer_tax_code"
+                            @input="form.buyer_tax_code = form.buyer_tax_code.replace(/\D/g, '')"
+                            :class="['border p-2 rounded w-full', errorFields.buyer_tax_code ? 'border-red-500' : '']"
                             :required="form.invoice_required" />
                     </div>
                     <div class="mb-4">
@@ -87,14 +106,11 @@
                                 class="text-red-600">*</b></label>
                         <select v-model="form.payment_method" class="border p-2 rounded w-full">
                             <option value="COD">Thanh toán khi nhận hàng (COD)</option>
-                            <option value="BANK">Chuyển khoản</option>
+                            <!-- <option value="BANKING">Chuyển khoản</option>-->
                         </select>
                     </div>
 
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" v-model="form.invoice_required" />
-                        Yêu cầu xuất hóa đơn VAT
-                    </label>
+
                 </div>
 
 
@@ -136,6 +152,7 @@ const form = reactive({
     receiver_email: '',
     buyer_name: '',
     buyer_company: '',
+    company_address: '',
     buyer_tax_code: '',
     shipping_address: '',
     payment_method: 'COD',
@@ -209,26 +226,73 @@ const applyDiscount = async () => {
     }
 }
 
+const errorFields = ref({
+    buyer_name: false,
+    receiver_email: false,
+    receiver_phone: false,
+    shipping_address: false,
+    payment_method: false,
+    buyer_company: false,
+    company_address: false,
+    buyer_tax_code: false
+});
+const initialForm = {
+    discount_code: '',
+    discount_amount: 0,
+};
 
 const submitOrder = () => {
-    if (
-        !form.buyer_name ||
-        !form.receiver_email ||
-        !form.receiver_phone ||
-        !form.shipping_address ||
-        !form.payment_method ||
-        (form.invoice_required && !form.buyer_tax_code)
-    ) {
+    // Reset tất cả lỗi
+    Object.keys(errorFields.value).forEach(key => errorFields.value[key] = false);
+
+    let hasError = false;
+
+    const isValidEmail = (email) =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!isValidEmail(form.receiver_email)) {
+        errorFields.value.receiver_email = true;
+        alert("Email không hợp lệ.");
+        return;
+    }
+
+    // Check các trường bắt buộc chung
+    ['buyer_name', 'receiver_email', 'receiver_phone', 'shipping_address', 'payment_method'].forEach(field => {
+        if (!form[field]) {
+            errorFields.value[field] = true;
+            hasError = true;
+        }
+    });
+
+    // Nếu yêu cầu xuất hóa đơn, check thêm
+    if (form.invoice_required) {
+        ['buyer_company', 'company_address', 'buyer_tax_code'].forEach(field => {
+            if (!form[field]) {
+                errorFields.value[field] = true;
+                hasError = true;
+            }
+        });
+    }
+
+    if (hasError) {
         alert('Vui lòng điền đầy đủ thông tin bắt buộc.');
         return;
     }
+
+    // Gửi dữ liệu
     emit('submit', {
         ...form,
         total_price: totalPrice.value,
         total_price_before_tax: subtotal.value,
         vat_amount: vatAmount.value,
         items: props.cartItems
-    })
-    emit('close')
-}
+    });
+
+    form.discount_code = initialForm.discount_code;
+    form.discount_amount = initialForm.discount_amount;
+    discountMessage.value = '';
+    discountSuccess.value = false;
+    emit('close');
+};
+
 </script>
