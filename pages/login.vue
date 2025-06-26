@@ -1,35 +1,44 @@
-﻿<template>
-    <div class="max-w-6xl mx-auto px-4 py-10">
-        <h2 class="text-3xl font-bold mb-6 text-center">🧵 Macrame Shop</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            <div v-for="product in products"
-                 :key="product.id"
-                 class="bg-white rounded-xl shadow hover:shadow-lg transition">
-                <img :src="product.image_url || '/images/placeholder.jpg'"
-                     alt="Product"
-                     class="w-full h-48 object-cover rounded-t-xl" />
-                <div class="p-4 flex flex-col justify-between h-[140px]">
-                    <div>
-                        <h3 class="font-semibold text-lg text-gray-800 truncate">{{ product.name }}</h3>
-                        <p class="text-gray-500">{{ product.price.toLocaleString() }} đ</p>
-                    </div>
-                    <NuxtLink :to="`/shop/${product.id}`"
-                              class="mt-4 inline-block bg-black text-white px-4 py-2 rounded-full text-sm text-center">
-                        Xem chi tiết
-                    </NuxtLink>
-                </div>
-            </div>
-        </div>
+<template>
+    <div class="bg-white shadow-xl rounded-xl w-full max-w-md p-8">
+        <h2 class="text-center text-2xl font-bold mb-6 text-gray-800">🔐 Đăng nhập</h2>
+
+        <div v-if="error" class="text-red-500 text-sm text-center mb-4">{{ error }}</div>
+
+        <input v-model="username" type="text" placeholder="Tên đăng nhập"
+            class="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input v-model="password" type="password" placeholder="Mật khẩu"
+            class="w-full mb-6 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+        <button @click="login" class="w-full py-2 bg-black text-white rounded hover:bg-gray-800 transition">
+            Đăng nhập
+        </button>
     </div>
+
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue'
+const username = ref('');
+const password = ref('');
+const error = ref('');
+const { public: { apiBaseUrl } } = useRuntimeConfig()
+const router = useRouter();
 
-    const products = ref([])
+const login = async () => {
+    error.value = '';
 
-    onMounted(async () => {
-        const res = await fetch('http://127.0.0.1:5000/products')
-        products.value = await res.json()
-    })
+    try {
+        const res = await $fetch(`${apiBaseUrl}/login`, {
+            method: 'POST',
+            body: { username: username.value, password: password.value },
+        });
+
+        // Lưu token và role
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('role', res.role);
+
+        router.push('/admin'); // Chuyển tới dashboard admin
+    } catch (err) {
+        error.value = err.data?.error || 'Đăng nhập thất bại';
+    }
+};
 </script>
