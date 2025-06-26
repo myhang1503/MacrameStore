@@ -117,7 +117,8 @@
 
 <script setup>
 const props = defineProps({ show: Boolean });
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submitted']);
+
 const { public: { apiBaseUrl } } = useRuntimeConfig()
 const form = reactive({
     name: '',
@@ -203,32 +204,36 @@ const handleSubmit = async () => {
 
         console.log("advancedOptions:", advancedOptions.value);
         console.log("option_plus trước gửi:", option_plus);
-        /*
-                // 3. Tạo sản phẩm dạng draft
-                const res = await $fetch(`${apiBaseUrl}/products`, {
-                    method: "POST",
-                    body: {
-                        ...form,
-                        price: subprice,
-                        option_plus: option_plus,
-                        status: "draft"
-                    }
-                });
-        */
-        const productId = 20;
 
+        // 3. Tạo sản phẩm dạng draft
+        const res = await $fetch(`${apiBaseUrl}/products`, {
+            method: "POST",
+            body: {
+                ...form,
+                price: subprice,
+                option_plus: option_plus,
+                status: "draft"
+            }
+        });
+
+        const productId = res.product_id;
         console.log("productId:", productId);
+
 
         // 4. Upload ảnh chính (main image)
         const formMain = new FormData();
+        let mainImagePath = ""
+        const detailImagePaths = []
+
         formMain.append("file", mainImageFile.value);
         formMain.append("type", "main");
         formMain.append("product_id", productId);
-        await $fetch(`${apiBaseUrl}/upload/main/${productId}`, {
+        const mainRes = await $fetch(`${apiBaseUrl}/upload/main/${productId}`, {
             method: "POST",
             body: formMain
         });
-
+        mainImagePath = `/${mainRes.path}`
+        console.log("mainImagePath:", mainImagePath);
         // 5. Upload ảnh chi tiết
         for (let i = 0; i < detailImageFiles.value.length; i++) {
             const formDetail = new FormData();
@@ -236,35 +241,39 @@ const handleSubmit = async () => {
             formDetail.append("type", "detail");
             formDetail.append("product_id", productId);
             formDetail.append("index", i);
-            await $fetch(`${apiBaseUrl}/upload/detail/${productId}`, {
+            const detailRes = await $fetch(`${apiBaseUrl}/upload/detail/${productId}`, {
                 method: "POST",
                 body: formDetail
             });
+            detailImagePaths.push(`/${detailRes.path}`)
         }
-        /*
-                // 6. Cập nhật lại sản phẩm (nếu cần) – có thể bỏ qua nếu upload tự xử lý file name
-        
-                // 7. Thêm các option động
-                for (let opt of advancedOptions.value) {
-                    await $fetch(`${apiBaseUrl}/product-options`, {
-                        method: "POST",
-                        body: {
-                            product_id: productId,
-                            options: [{ label: opt.key, value: opt.value }],
-                            quantity: opt.quantity
-                        }
-                    });
+        console.log("detailImagePaths:", detailImagePaths);
+        // 6. Thêm các option động
+        for (let opt of advancedOptions.value) {
+            await $fetch(`${apiBaseUrl}/product-options`, {
+                method: "POST",
+                body: {
+                    product_id: productId,
+                    options: [{ label: opt.label, value: opt.value }],
+                    quantity: opt.quantity
                 }
-        
-                // 8. Chuyển sang published
-                await $fetch(`${apiBaseUrl}/products/${productId}`, {
-                    method: "PUT",
-                    body: { status: "published" }
-                });
-        */
+            });
+        }
+
+        // 7. Chuyển sang published
+        await $fetch(`${apiBaseUrl}/products/${productId}`, {
+            method: "PUT",
+            body: {
+                status: "published",
+                main_image: mainImagePath,
+                detail_images: detailImagePaths
+            }
+        });
+
         // ✅ Hoàn tất
         onClose();
-        //refreshProductList(); // bạn tự định nghĩa để reload
+        emit('submitted');
+
     } catch (error) {
         alert("Có lỗi xảy ra, dữ liệu chưa được lưu.");
         console.error(error);

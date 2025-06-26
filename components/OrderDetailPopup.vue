@@ -63,6 +63,8 @@
 
 defineProps(['order'])
 
+
+
 function parseNote(note) {
     try {
         const parsed = JSON.parse(note)

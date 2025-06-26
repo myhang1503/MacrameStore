@@ -11,7 +11,7 @@
             <SwiperSlide v-for="product in products" :key="product.id">
                 <div class="relative w-full h-full overflow-hidden">
                     <!-- Ảnh chính -->
-                    <img :src="`/${product.main_image}`" alt="Product"
+                    <img :src="`${product.main_image}`" alt="Product"
                         class="sm:h-full sm:w-full md:object-cover sm:object-container" />
 
                     <!-- Badge góc trên trái -->
@@ -130,7 +130,7 @@ function animateAddToCart(event, product) {
     if (!cartIcon) return
 
     const img = document.createElement('img')
-    img.src = `/${product.main_image}` // hoặc hình thumbnail sản phẩm
+    img.src = `${product.main_image}` // hoặc hình thumbnail sản phẩm
     img.className = 'flying-image'
     img.style.position = 'fixed'
     img.style.width = '100px'

@@ -12,7 +12,7 @@
         <div v-for="(product, index) in visibleProducts" :key="product.id || index"
           class="relative bg-white shadow-lg overflow-hidden">
           <!-- Ảnh sản phẩm -->
-          <img :src="`/${product.main_image}`" class="w-full object-cover aspect-[1/1]" />
+          <img :src="`${product.main_image}`" class="w-full object-cover aspect-[1/1]" />
 
           <div class="px-3 pt-2 pb-3 text-center flex flex-col justify-between h-[120px]">
             <div>

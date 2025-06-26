@@ -6,7 +6,7 @@
                 class="border px-4 py-2 rounded w-1/2" />
 
             <!-- Nút thêm sản phẩm -->
-            <AddProductModal :show="showAdd" @close="showAdd = false" @submitted="fetchProducts" />
+
             <button @click="showAdd = true" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 ➕ Thêm sản phẩm
             </button>
@@ -28,19 +28,22 @@
                     <td class="px-2 py-1">{{ product.id }}</td>
                     <td class="px-2 py-1">{{ product.name }}</td>
                     <td class="px-2 py-1 text-center">
-                        <img :src="`/${product.main_image}`" alt="main image"
-                            class="w-20 h-20 object-contain mx-auto" />
+                        <img :src="`${product.main_image}`" alt="main image" class="w-20 h-20 object-contain mx-auto" />
                     </td>
                     <td class="text-center">
                         <span :class="product.status === 'draft' ? 'text-red-500 font-bold' : 'text-green-600'">
                             {{ product.status }}
                         </span>
                     </td>
-                    <td class="px-2 py-1 text-center">
-                        <button class="text-blue-600 hover:underline mr-2">Chi tiết</button>
-                        <button class="text-orange-600 hover:underline mr-2">Sửa</button>
-                        <button class="text-red-600 hover:underline">Xoá</button>
+                    <td class="text-center space-x-1">
+                        <button class="px-2 py-1 rounded-full bg-blue-100 text-blue-600 text-sm hover:bg-blue-200"
+                            @click="openProductDetail(product)">Chi tiết</button>
+                        <button class="px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm hover:bg-yellow-200"
+                            @click="editProduct(product.id)">Sửa</button>
+                        <button class="px-2 py-1 rounded-full bg-red-100 text-red-600 text-sm hover:bg-red-200"
+                            @click="deleteProduct(product)">Xoá</button>
                     </td>
+
                 </tr>
             </tbody>
         </table>
@@ -54,6 +57,10 @@
             </button>
         </div>
     </div>
+    <AddProductModal :show="showAdd" @close="showAdd = false" @submitted="fetchProducts" />
+    <ProductDetailPopup :show="showDetailPopup" :product="selectedProduct" @close="showDetailPopup = false" />
+    <EditProductModal :show="showEdit" :productId="selectedProductId" @close="showEdit = false"
+        @updated="fetchProducts" />
 
 </template>
 <script setup>
@@ -63,8 +70,15 @@ definePageMeta({
 
 import { ref, computed, onMounted } from 'vue'
 import AddProductModal from '@/components/admin/AddProductModal.vue'
-
+import ProductDetailPopup from '@/components/ProductDetailPopup.vue'
+import EditProductModal from '@/components/admin/EditProductModal.vue'
 const { public: { apiBaseUrl } } = useRuntimeConfig()
+
+const selectedProduct = ref(null)
+const showDetailPopup = ref(false)
+
+const showEdit = ref(false)
+const selectedProductId = ref(null)
 
 const allProducts = ref([])
 const searchQuery = ref('')
@@ -96,8 +110,9 @@ const viewDetail = (product) => {
     // TODO: Mở popup chi tiết
 }
 
-const editProduct = (product) => {
-    // TODO: Mở popup sửa sản phẩm
+const editProduct = (id) => {
+    selectedProductId.value = id
+    showEdit.value = true
 }
 
 const deleteProduct = async (id) => {
@@ -108,6 +123,12 @@ const deleteProduct = async (id) => {
         fetchProducts()
     }
 }
+
+const openProductDetail = (product) => {
+    selectedProduct.value = product
+    showDetailPopup.value = true
+}
+
 
 onMounted(fetchProducts)
 </script>
