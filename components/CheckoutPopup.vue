@@ -7,7 +7,7 @@
                 class="absolute top-3 right-3 text-white bg-orange-500 w-6 h-6 rounded-full flex items-center justify-center text-sm z-10">✕</button>
 
             <!-- Cột trái: Danh sách sản phẩm -->
-            <div class="w-full md:w-1/2 p-4 overflow-y-auto max-h-[90vh] border-r border-gray-300">
+            <div class="w-full md:w-1/3 p-4 overflow-y-auto max-h-[90vh] border-r border-gray-300">
                 <h3 class="text-lg font-semibold mb-2">Đơn hàng</h3>
                 <div v-for="(item, index) in cartItems" :key="index" class="flex items-start gap-4 py-3">
                     <img :src="item.main_image" alt="Image" class="w-16 h-16 object-cover rounded" />
@@ -25,7 +25,7 @@
             </div>
 
             <!-- Cột phải: Form + Tổng tiền -->
-            <div class="w-full md:w-1/2 p-4 overflow-y-auto max-h-[90vh]">
+            <div class="w-full md:w-2/3 p-4 overflow-y-auto max-h-[90vh]">
                 <h2 class="text-xl font-bold mb-4">Thông tin khách hàng</h2>
 
                 <!-- Form: Chuyển sang dạng 1 cột -->
@@ -56,9 +56,51 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Địa chỉ nhận hàng <b
                                 class="text-red-600">*</b></label>
-                        <input v-model="form.shipping_address"
-                            :class="['border p-2 rounded w-full', errorFields.shipping_address ? 'border-red-500' : '']" />
+                        <input v-model="form.address_detail" placeholder="Nhập số nhà, tên đường..."
+                            :class="['border p-2 rounded w-full', errorFields.address_detail ? 'border-red-500' : '']" />
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Tỉnh -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tỉnh / Thành phố</label>
+                            <select v-model.number="form.province_id" :disabled="!provinces.length"
+                                :class="['border p-2 rounded w-full', errorFields.province_id ? 'border-red-500' : '']">>
+                                <option disabled value="">Chọn tỉnh</option>
+                                <option v-for="p in provinces" :key="p.PROVINCE_ID" :value="p.PROVINCE_ID">
+                                    {{ toTitleCase(p.PROVINCE_NAME) }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Huyện -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Quận / Huyện</label>
+                            <select v-model.number="form.district_id"
+                                :class="['border p-2 rounded w-full', errorFields.district_id ? 'border-red-500' : '']">
+
+                                <option disabled value="">Chọn quận/huyện</option>
+
+                                <option v-for="d in districts" :key="d.DISTRICT_ID" :value="d.DISTRICT_ID">
+                                    {{ toTitleCase(d.DISTRICT_NAME) }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Xã -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Xã / Phường</label>
+                            <select v-model.number="form.ward_code" :disabled="!wards.length"
+                                :class="['border p-2 rounded w-full', errorFields.ward_code ? 'border-red-500' : '']">
+                                <option disabled value="">Chọn phường/xã</option>
+                                <option v-for="w in wards" :key="w.WARDS_ID" :value="w.WARDS_ID">
+                                    {{ toTitleCase(w.WARDS_NAME) }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div><label class="block text-sm font-medium text-gray-700 mb-1">{{ form.shipping_address }}</label>
+                    </div>
+
                     <label class="flex items-center gap-2">
                         <input type="checkbox" v-model="form.invoice_required" />
                         Yêu cầu xuất hóa đơn VAT
@@ -122,7 +164,9 @@
                     <p class="text-gray-600">Giảm giá: {{ form.discount_amount.toLocaleString() }}đ</p>
                     <p class="text-lg font-bold">Tổng cộng: {{ totalPrice.toLocaleString() }}đ</p>
                 </div>
-
+                <p v-if="shipping_fee_error" class="text-sm mt-1" :class="shipping_fee_error ? 'text-red-500' : ''">
+                    {{ shipping_fee_error_Message }}
+                </p>
                 <!-- Nút xác nhận -->
                 <div class="mt-4 text-right">
                     <button class="bg-black text-white px-6 py-2 rounded" @click="submitOrder">
@@ -138,8 +182,7 @@
 import { computed, reactive, toRefs } from 'vue'
 const { public: { apiBaseUrl } } = useRuntimeConfig()
 
-const discountMessage = ref('')
-const discountSuccess = ref(false)
+
 
 const props = defineProps({
     show: Boolean,
@@ -155,24 +198,168 @@ const form = reactive({
     company_address: '',
     buyer_tax_code: '',
     shipping_address: '',
+    address_detail: '',
+    province_id: '',
+    district_id: '',
+    ward_code: '',
     payment_method: 'COD',
     invoice_required: false,
-    shipping_fee: 20000,
+    shipping_fee: 0,
     vat_rate: 10,
     discount_code: '',
     discount_amount: 0,
     cartItems: props.cartItems,
     user_id: 1
 })
-
+const errorFields = ref({
+    buyer_name: false,
+    receiver_email: false,
+    receiver_phone: false,
+    shipping_address: false,
+    address_detail: false,
+    payment_method: false,
+    buyer_company: false,
+    company_address: false,
+    buyer_tax_code: false,
+    province_id: false,
+    district_id: false,
+    ward_code: false,
+});
+const initialForm = {
+    discount_code: '',
+    discount_amount: 0,
+};
+const totalQuantity = props.cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
 const subtotal = computed(() =>
     props.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
 )
 const vatAmount = computed(() => Math.round((subtotal.value * form.vat_rate) / 100))
+
 const totalPrice = computed(() =>
     subtotal.value + form.shipping_fee + vatAmount.value - form.discount_amount
 )
+const toTitleCase = (str) => {
+    return str
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+}
+
+
+
+const provinces = ref([])
+const districts = ref([])
+const wards = ref([])
+
+const provinceName = ref('')
+const districtName = ref('')
+const wardName = ref('')
+
+
+const loadProvinces = async () => {
+    provinces.value = await $fetch(`${apiBaseUrl}/viettel/provinces`).then(res => res.data)
+
+}
+
+const loadDistricts = async (provinceId) => {
+    if (!provinceId) return
+    const res = await $fetch(`${apiBaseUrl}/viettel/districts?provinceId=${provinceId}`)
+    districts.value = res
+
+
+}
+const loadWards = async (districtId) => {
+    if (!districtId) return
+    wards.value = await $fetch(`${apiBaseUrl}/viettel/wards?districtId=${districtId}`).then(res => res || [])
+}
+
+onMounted(() => loadProvinces())
+
+
+watch(() => form.province_id, (newVal) => {
+
+    form.district_id = ''
+    form.ward_code = ''
+    form.shipping_address = ''
+    form.shipping_fee = 0
+
+    districtName.value = ''
+    wardName.value = ''
+
+    districts.value = []
+    wards.value = []
+    loadDistricts(newVal)
+})
+
+const shipping_fee_error = ref(false)
+const shipping_fee_error_Message = ref('')
+
+
+watch(() => form.district_id, async (newVal) => {
+    form.ward_code = ''
+    form.shipping_address = ''
+    form.shipping_fee = 0
+    wardName.value = ''
+    wards.value = []
+    await loadWards(newVal)
+
+    shipping_fee_error.value = false
+    shipping_fee_error_Message.value = ''
+    // 👉 Check đủ dữ liệu thì mới gọi API
+    provinceName.value = provinces.value.find(p => p.PROVINCE_ID === form.province_id)?.PROVINCE_NAME || ''
+    districtName.value = districts.value.find(d => d.DISTRICT_ID === form.district_id)?.DISTRICT_NAME || ''
+    wardName.value = wards.value.find(w => w.WARDS_ID === form.ward_code)?.WARDS_NAME || ''
+
+    if (form.province_id && form.district_id && provinceName.value && districtName.value) {
+        try {
+            const response = await $fetch(`${apiBaseUrl}/viettel/shipfee`, {
+                method: 'POST',
+                body: {
+                    quantity: totalQuantity,
+                    total_price_before_tax: subtotal.value,
+                    vat: vatAmount.value,
+                    discount: form.discount_amount,
+                    receiver_province: form.province_id,
+                    receiver_district: form.district_id,
+                }
+            })
+
+            form.shipping_fee = response.data?.MONEY_TOTAL || 0
+        } catch (err) {
+
+            form.shipping_fee = 0
+            shipping_fee_error.value = true
+            shipping_fee_error_Message.value = 'Không thể tính phí vận chuyển tại thời điểm này. Phí vận chuyển sẽ được thông báo sau khi xác nhận đơn.'
+
+        }
+    }
+})
+
+
+watch(
+    [() => form.ward_code, () => form.district_id, () => form.province_id, () => form.address_detail],
+    async () => {
+        // 🔄 Cập nhật tên tương ứng
+        provinceName.value = provinces.value.find(p => p.PROVINCE_ID === form.province_id)?.PROVINCE_NAME || ''
+        districtName.value = districts.value.find(d => d.DISTRICT_ID === form.district_id)?.DISTRICT_NAME || ''
+        wardName.value = wards.value.find(w => w.WARDS_ID === form.ward_code)?.WARDS_NAME || ''
+
+        // ✅ Chỉ xử lý khi đủ cả 3 giá trị
+        if (provinceName.value && districtName.value && wardName.value) {
+            form.shipping_address = `${form.address_detail}, ${toTitleCase(wardName.value)}, ${toTitleCase(districtName.value)}, ${toTitleCase(provinceName.value)}`
+
+        } else {
+            form.shipping_address = ''
+        }
+    }
+)
+
+const discountMessage = ref('')
+const discountSuccess = ref(false)
+
+
 
 const applyDiscount = async () => {
     discountMessage.value = ''
@@ -226,20 +413,7 @@ const applyDiscount = async () => {
     }
 }
 
-const errorFields = ref({
-    buyer_name: false,
-    receiver_email: false,
-    receiver_phone: false,
-    shipping_address: false,
-    payment_method: false,
-    buyer_company: false,
-    company_address: false,
-    buyer_tax_code: false
-});
-const initialForm = {
-    discount_code: '',
-    discount_amount: 0,
-};
+
 
 const submitOrder = () => {
     // Reset tất cả lỗi
@@ -247,22 +421,50 @@ const submitOrder = () => {
 
     let hasError = false;
 
-    const isValidEmail = (email) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // Check các trường bắt buộc chung
+    if (!form.buyer_name) {
+        errorFields.value.buyer_name = true;
+        hasError = true;
 
-    if (!isValidEmail(form.receiver_email)) {
-        errorFields.value.receiver_email = true;
-        alert("Email không hợp lệ.");
-        return;
     }
 
-    // Check các trường bắt buộc chung
-    ['buyer_name', 'receiver_email', 'receiver_phone', 'shipping_address', 'payment_method'].forEach(field => {
-        if (!form[field]) {
-            errorFields.value[field] = true;
+    if (!form.receiver_email) {
+        errorFields.value.receiver_email = true;
+        hasError = true;
+    } else {
+        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.receiver_email);
+        if (!isValidEmail) {
+            alert("Email không hợp lệ.");
+            errorFields.value.receiver_email = true;
             hasError = true;
+            return;
         }
-    });
+    }
+    if (!form.receiver_phone) {
+        errorFields.value.receiver_phone = true;
+        hasError = true;
+
+    }
+
+    if (!form.address_detail) {
+        errorFields.value.address_detail = true;
+        hasError = true;
+    }
+
+    // Kiểm tra địa chỉ (các trường select)
+    if (!form.province_id) {
+        errorFields.value.province_id = true;
+        hasError = true;
+    }
+    if (!form.district_id) {
+        errorFields.value.district_id = true;
+        hasError = true;
+    }
+    if (!form.ward_code) {
+        errorFields.value.ward_code = true;
+        hasError = true;
+    }
+
 
     // Nếu yêu cầu xuất hóa đơn, check thêm
     if (form.invoice_required) {
@@ -273,6 +475,7 @@ const submitOrder = () => {
             }
         });
     }
+
 
     if (hasError) {
         alert('Vui lòng điền đầy đủ thông tin bắt buộc.');
@@ -285,6 +488,9 @@ const submitOrder = () => {
         total_price: totalPrice.value,
         total_price_before_tax: subtotal.value,
         vat_amount: vatAmount.value,
+        province_id: form.province_id,
+        district_id: form.district_id,
+        ward_code: form.ward_code,
         items: props.cartItems
     });
 
@@ -294,5 +500,6 @@ const submitOrder = () => {
     discountSuccess.value = false;
     emit('close');
 };
+
 
 </script>

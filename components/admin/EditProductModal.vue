@@ -122,6 +122,10 @@ const form = ref({
     option_plus: []          // Dùng nếu cần bind lại option_plus (nếu có)
 })
 
+let mainImagePath = ""
+const detailImagePaths = []
+
+
 const mainImageFile = ref(null)
 const detailImageFiles = ref([])
 
@@ -207,6 +211,7 @@ const handleUpdate = async () => {
 
         if (detailImageFiles.value.length > 0) {
             form.detail_images = detailImagePaths
+            console.log("form.detail_images trước gửi:", form.detail_images);
         }
 
 

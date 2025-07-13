@@ -41,7 +41,7 @@
                         <button class="px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm hover:bg-yellow-200"
                             @click="editProduct(product.id)">Sửa</button>
                         <button class="px-2 py-1 rounded-full bg-red-100 text-red-600 text-sm hover:bg-red-200"
-                            @click="deleteProduct(product)">Xoá</button>
+                            @click="deleteProduct(product.id)">Xoá</button>
                     </td>
 
                 </tr>
@@ -62,6 +62,8 @@
     <EditProductModal :show="showEdit" :productId="selectedProductId" @close="showEdit = false"
         @updated="fetchProducts" />
 
+
+
 </template>
 <script setup>
 definePageMeta({
@@ -72,6 +74,7 @@ import { ref, computed, onMounted } from 'vue'
 import AddProductModal from '@/components/admin/AddProductModal.vue'
 import ProductDetailPopup from '@/components/ProductDetailPopup.vue'
 import EditProductModal from '@/components/admin/EditProductModal.vue'
+
 const { public: { apiBaseUrl } } = useRuntimeConfig()
 
 const selectedProduct = ref(null)
@@ -117,8 +120,11 @@ const editProduct = (id) => {
 
 const deleteProduct = async (id) => {
     if (confirm('Xác nhận xoá sản phẩm?')) {
-        await fetch(`${apiBaseUrl}/products/${id}`, {
-            method: 'DELETE'
+        await $fetch(`${apiBaseUrl}/products/${id}`, {
+            method: "PUT",
+            body: {
+                status: "deleted",
+            }
         })
         fetchProducts()
     }
