@@ -17,7 +17,7 @@
     -moz-appearance: textfield; /* Firefox */
 }
 :root {
-    --color-primary: #1a1a1a; /* tương ứng bg-orange-500 */
+    --color-primary: #012a4a; /* tương ứng bg-orange-500 */
 }
 .root-bg {
     background-color: var(--color-primary);

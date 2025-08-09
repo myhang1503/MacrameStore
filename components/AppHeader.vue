@@ -147,7 +147,7 @@ const loadingMessage = ref('Đang xử lý đơn hàng...');
 const isSearching = ref(false)          // nếu chưa có
 const showMobileMenu = ref(false)
 const navItems = [
-    { to: '/shop', text: 'Cửa hàng' },
+    { to: '/', text: 'Cửa hàng' },
     { to: '/explore', text: 'Dịch vụ' },
     { to: '/learn', text: 'Hướng dẫn tự làm' },
     { to: '/support', text: 'Về chúng tôi' },
