@@ -21,7 +21,8 @@
                 {{ product.name }}
               </p>
               <div class="flex flex-col items-center mt-1">
-                <p v-if="product.original_price" class="line-through text-gray-400 text-xs">
+                <p v-if="product.discount_price > 0 && product.original_price"
+                  class="line-through text-gray-400 text-xs">
                   {{ product.original_price.toLocaleString() }} đ
                 </p>
                 <p class="root-text font-bold text-sm">

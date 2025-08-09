@@ -28,7 +28,7 @@
                     <td class="px-2 py-1">{{ product.id }}</td>
                     <td class="px-2 py-1">{{ product.name }}</td>
                     <td class="px-2 py-1 text-center">
-                        <img :src="`${product.main_image}`" alt="main image" class="w-20 h-20 object-contain mx-auto" />
+                        <img :src="product.main_image" alt="main image" class="w-20 h-20 object-contain mx-auto" />
                     </td>
                     <td class="text-center">
                         <span :class="product.status === 'draft' ? 'text-red-500 font-bold' : 'text-green-600'">

@@ -1,6 +1,6 @@
 <template>
     <div class="relative flex items-center">
-        <button @click="toggleInput" class="p-2 text-gray-700 hover:text-black">
+        <button @click="toggleInput" class="p-2 text-white  hover:text-white">
             <Icon name="mdi:magnify" />
         </button>
         <input v-if="showInput" v-model="searchText" @keydown.enter="handleSearch" type="text"

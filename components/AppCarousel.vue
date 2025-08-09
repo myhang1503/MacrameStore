@@ -47,7 +47,8 @@
                         <!-- Giá + Nút -->
                         <div class="flex items-center justify-between mt-1">
                             <div class="flex items-center gap-2">
-                                <p v-if="product.original_price" class="line-through text-sm text-gray-300">
+                                <p v-if="product.discount_price > 0 && product.original_price"
+                                    class="line-through text-sm text-gray-300">
                                     {{ product.original_price.toLocaleString() }} đ
                                 </p>
                                 <p class="text-lg font-bold text-yellow-500">
