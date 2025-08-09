@@ -1,40 +1,14 @@
 <template>
   <footer class="w-full">
-    <!-- SUBSCRIBE (static, không binding) -->
-    <section class="root-bg text-[#e7e7e7]">
-      <div class="max-w-[1400px] mx-auto px-6 py-12 text-center">
-        <h2 class="text-3xl md:text-4xl font-semibold">Subscribe to our emails</h2>
-        <p class="mt-3 text-sm md:text-base opacity-80">
-          Subscribe to our mailing list for insider news, product launches, and more.
-        </p>
-
-        <div class="max-w-md mx-auto mt-6 flex gap-3">
-          <input type="email" placeholder="Email"
-            class="flex-1 rounded-md bg-transparent border border-[#a9b3ad] px-4 py-2 outline-none focus:ring-2 focus:ring-white/40 transition" />
-          <button class="rounded-md border border-[#a9b3ad] px-4 py-2 hover:bg-white/10 transition"
-            aria-label="Subscribe">
-            <Icon name="lucide:arrow-right" class="w-5 h-5" />
-          </button>
-        </div>
-
-        <p class="mt-5 text-sm tracking-wide">
-          <a href="mailto:flora@florastreetatelier.com" class="hover:underline">flora@florastreetatelier.com</a>
-        </p>
-        <p class="mt-1 text-xs opacity-80">
-          Email us for wholesale inquiries and special occasion gift inquiries
-        </p>
-      </div>
-    </section>
-
     <!-- MAIN FOOTER -->
     <section class="root-bg text-[#e7e7e7]">
-      <div class="max-w-[1800px] mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-7 gap-6">
+      <div class="max-w-[1600px] mx-auto px-8 py-10 grid grid-cols-4 gap-8">
         <!-- Col 1 -->
-        <div class="lg:col-span-3">
+        <div>
           <h3 class="font-bold text-white mb-3">SATURDAY MACRAME</h3>
           <p class="text-sm leading-relaxed opacity-90">
             SATURDAY MACRAME<br />
-            Mã số hộ kinh doanh: [bổ sung mã nếu có] Đăng ký ngày [bổ sung ngày] tại UBND [địa phương bạn đăng ký]<br />
+
             Saturday Macrame là nơi gửi gắm những câu chuyện bằng sợi và nút thắt tay. Mỗi sản phẩm là một món quà
             mang phong cách boho, được làm thủ công với tâm huyết và sự tỉ mỉ – độc đáo, tinh tế và mang dấu ấn cá nhân.
           </p>
@@ -69,13 +43,25 @@
         <!-- Col 4 -->
         <div>
           <h3 class="font-bold text-white mb-3">Liên hệ</h3>
+
           <p class="text-sm flex items-center gap-2">
-            <Icon name="lucide:phone" class="w-4 h-4" /> 0903.286.321
+            <Icon name="lucide:map-pin" class="w-4 h-4" />Chung cư Charm Plaza 1,Ngã tư 550, đường
+            ĐT743C,Khu phố Thống Nhất 1, Phường Dĩ An, Thành phố
+            Hồ Chí Minh
+
           </p>
+          <div class="mt-4 flex items-center gap-4 text-white/90">
+            <p class="text-sm flex items-center gap-2">
+              <Icon name="lucide:phone" class="w-4 h-4" /> (+84) 932 842 053
+            </p>
+          </div>
           <p class="text-sm mt-2 flex items-center gap-2">
             <Icon name="lucide:mail" class="w-4 h-4" />
             <a href="mailto:myhang1503@gmail.com" class="hover:underline">myhang1503@gmail.com</a>
           </p>
+
+
+
           <div class="mt-4 flex items-center gap-4 text-white/90">
             <a href="#" aria-label="Instagram" class="hover:opacity-80">
               <Icon name="lucide:instagram" class="w-5 h-5" />
@@ -89,15 +75,8 @@
           </div>
         </div>
 
-        <!-- Col 5 -->
-        <div>
-          <h4 class="font-semibold">Địa chỉ</h4>
-          <p class="mt-2 text-sm flex items-start gap-2 opacity-90">
-            <Icon name="lucide:map-pin" class="w-4 h-4 mt-0.5" />
-            Charm charm charm abc abc meo moe
-          </p>
-        </div>
       </div>
+
     </section>
 
 

@@ -1,7 +1,8 @@
 ﻿<template>
   <div class="w-full min-h-screen bg-[#f5f5f5]">
-    <!-- Carousel (chỉ từ type Sản phẩm) -->
-    <div class="w-full sm:w-full md:w-[80vw] h-[35vh] sm:h-[60vh] md:h-[50vh] overflow-hidden relative mx-auto mt-7">
+    <!-- Carousel (chỉ từ type Sản phẩm, ẩn khi đang search) -->
+    <div v-if="carouselProducts.length"
+      class="w-full sm:w-full md:w-[80vw] h-[35vh] sm:h-[60vh] md:h-[50vh] overflow-hidden relative mx-auto mt-7">
       <AppCarousel :products="carouselProducts" class="w-full h-full object-cover" />
     </div>
 
@@ -9,10 +10,11 @@
     <div class="px-6 py-8">
       <div class="text-center mb-6">
         <h2 class="text-2xl font-bold root-text inline-block relative pb-2
-               after:content-[''] after:block after:w-20 after:h-[3px] after:bg-gray-400 after:mx-auto after:mt-2">
+                 after:content-[''] after:block after:w-20 after:h-[3px] after:bg-gray-400 after:mx-auto after:mt-2">
           Sản phẩm
         </h2>
       </div>
+
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div v-for="(product, index) in visibleProducts" :key="product.id || 'p-' + index"
           class="relative bg-white shadow-lg overflow-hidden">
@@ -63,15 +65,18 @@
       </div>
       <div v-else-if="allProducts.length > 0" class="text-center py-6 text-gray-500">Đã hiển thị tất cả sản phẩm</div>
     </div>
-    <hr class="border-t border-gray-300 my-8">
+
+    <hr class="border-t border-gray-300 my-8" />
+
     <!-- ===== DỤNG CỤ ===== -->
     <div class="px-6 pb-10">
       <div class="text-center mb-6">
         <h2 class="text-2xl font-bold root-text inline-block relative pb-2
-               after:content-[''] after:block after:w-20 after:h-[3px] after:bg-gray-400 after:mx-auto after:mt-2">
+                 after:content-[''] after:block after:w-20 after:h-[3px] after:bg-gray-400 after:mx-auto after:mt-2">
           Dụng cụ & Vật liệu
         </h2>
       </div>
+
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div v-for="(tool, index) in visibleTools" :key="tool.id || 't-' + index"
           class="relative bg-white shadow-lg overflow-hidden">
@@ -135,7 +140,9 @@
 
 <script setup>
 import ProductDetailPopup from '@/components/ProductDetailPopup.vue'
-import { ref, onMounted, onUnmounted, inject } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
 const { public: { apiBaseUrl } } = useRuntimeConfig()
 
 const addToCart = inject('addToCart')
@@ -144,7 +151,7 @@ const PRODUCT_TYPE = 'Sản phẩm'
 const TOOLS_TYPE = 'Dụng cụ'
 const limit = 8
 
-// ---- Carousel (chỉ Sản phẩm)
+// ---- Carousel (chỉ Sản phẩm, ẩn khi search)
 const carouselProducts = ref([])
 
 // ---- SẢN PHẨM
@@ -159,52 +166,81 @@ const visibleTools = ref([])
 const loadingTools = ref(false)
 const finishedTools = ref(false)
 
+// ---- CACHE để search client-side
+const cacheAllProd = ref(null)
+const cacheAllTools = ref(null)
+
+// Route / Search
+const route = useRoute()
+watch(
+  () => route.query.search,
+  (q) => fetchProducts(typeof q === 'string' ? q : ''),
+  { immediate: true }
+)
+
 // Helpers
 function resolveImg(url) {
   if (!url) return '/placeholder.jpg'
   if (/^(https?:)?\/\//.test(url) || url.startsWith('/')) return url
   return '/' + url
 }
-
 function sameType(p, t) {
   return ((p.type_products || '').trim().toLowerCase() === t.trim().toLowerCase())
 }
+function normalize(s = '') {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim()
+}
 
+// API
 async function fetchByType(type) {
   const res = await fetch(`${apiBaseUrl}/products?type=${encodeURIComponent(type)}`)
   if (!res.ok) throw new Error(`Lỗi khi tải ${type}`)
   const data = await res.json()
-
-  // 🔒 Lọc cứng ở client để không bị lẫn dữ liệu nếu API chưa filter
-  const filtered = data.filter(p => sameType(p, type))
-
-  // (tùy chọn) kiểm tra nhanh trong devtools
-  // console.log(type, '=>', filtered.length, 'items'); 
-  // console.table([...new Set(data.map(p => p.type_products))])
-
-  return filtered
+  // Lọc cứng theo type
+  return data.filter(p => sameType(p, type))
 }
-async function fetchAll() {
-  try {
+
+// Core: fetch theo search từ cache
+async function fetchProducts(q = '') {
+  const query = (q || '').trim()
+  // load cache nếu chưa có
+  if (!cacheAllProd.value || !cacheAllTools.value) {
     const [prod, tools] = await Promise.all([
       fetchByType(PRODUCT_TYPE),
       fetchByType(TOOLS_TYPE),
     ])
-    allProducts.value = prod
-    allTools.value = tools
-    carouselProducts.value = prod.filter(p => p.show_in_carousel === true)
+    cacheAllProd.value = prod
+    cacheAllTools.value = tools
+  }
 
-    // reset và hiển thị trang đầu
-    visibleProducts.value = []
-    visibleTools.value = []
-    finishedProducts.value = false
-    finishedTools.value = false
-    sliceNextProducts()
-    sliceNextTools()
-  } catch (e) { console.error(e) }
+  if (!query) {
+    // không search → trả về full + hiện carousel
+    applyData(cacheAllProd.value || [], cacheAllTools.value || [], true)
+    return
+  }
+
+  const nq = normalize(query)
+  const prod = (cacheAllProd.value || []).filter(p => normalize(p.name).includes(nq))
+  const tools = (cacheAllTools.value || []).filter(p => normalize(p.name).includes(nq))
+  // đang search → ẩn carousel (nếu muốn giữ, đổi thành true)
+  applyData(prod, tools, false)
 }
 
-// Slice/paginate
+// Áp data + reset paginate
+function applyData(prod, tools, showCarousel) {
+  allProducts.value = prod
+  allTools.value = tools
+  carouselProducts.value = showCarousel ? prod.filter(p => p.show_in_carousel === true) : []
+
+  visibleProducts.value = []
+  visibleTools.value = []
+  finishedProducts.value = false
+  finishedTools.value = false
+  sliceNextProducts()
+  sliceNextTools()
+}
+
+// Paginate
 function sliceNextProducts() {
   if (finishedProducts.value || loadingProducts.value) return
   loadingProducts.value = true
@@ -223,18 +259,13 @@ function sliceNextTools() {
   if (next.length < limit) finishedTools.value = true
   loadingTools.value = false
 }
-
 function loadMoreProducts() { sliceNextProducts() }
 function loadMoreTools() { sliceNextTools() }
 
-// Scroll top only
+// Scroll top btn
 function onScroll() { showScrollTop.value = window.scrollY > window.innerHeight }
-onMounted(() => {
-  fetchAll()
-  window.addEventListener('scroll', onScroll, { passive: true })
-})
+onMounted(() => { window.addEventListener('scroll', onScroll, { passive: true }) })
 onUnmounted(() => window.removeEventListener('scroll', onScroll))
-
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }) }
 
 // Popup + nút

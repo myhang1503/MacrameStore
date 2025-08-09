@@ -11,7 +11,7 @@
                 <!-- Giữa: Logo -->
                 <div class="flex items-center justify-center">
                     <NuxtLink to="/" class="flex items-center gap-2 font-bold text-lg text-white">
-                        <img src="/Logo.png" class="w-14 h-14 object-contain" />
+
                         <span>Saturday Macrame</span>
                     </NuxtLink>
                 </div>
@@ -77,9 +77,9 @@
             </div>
         </div>
         <!-- Hàng 2: Menu -->
-        <nav class="hidden md:flex bg-[rgba(1,42,74,0.3)] justify-center gap-6 text-sm font-medium text-[#012a4a]"
+        <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium text-[#012a4a]"
             style="background-size: cover;background-position: center;">
-            <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to" class="hover:text-white">
+            <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to">
                 {{ i.text }}
             </NuxtLink>
         </nav>
