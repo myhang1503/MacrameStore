@@ -57,11 +57,8 @@
           </div>
           <p class="text-sm mt-2 flex items-center gap-2">
             <Icon name="lucide:mail" class="w-4 h-4" />
-            <a href="mailto:myhang1503@gmail.com" class="hover:underline">myhang1503@gmail.com</a>
+            <a href="mailto:myhang1503@gmail.com" class="hover:underline break-all">myhang1503@gmail.com</a>
           </p>
-
-
-
           <div class="mt-4 flex items-center gap-4 text-white/90">
             <a href="#" aria-label="Instagram" class="hover:opacity-80">
               <Icon name="lucide:instagram" class="w-5 h-5" />

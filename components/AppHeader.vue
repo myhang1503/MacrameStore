@@ -26,6 +26,22 @@
                         class="absolute -top-1 -right-1 text-[12px] bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">
                         {{ cartItems.length }}
                     </span>
+                    <div class="relative md:hidden ml-2">
+                        <button @click.stop="showMobileMenu = !showMobileMenu" aria-label="Open menu"
+                            class="w-10 h-10 flex items-center justify-center bg-white text-[#014f86] rounded">
+                            <Icon :name="showMobileMenu ? 'lucide:x' : 'lucide:menu'" class="w-5 h-5" />
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div v-if="showMobileMenu"
+                            class="absolute right-0 top-full mt-2 w-56 bg-white border shadow-lg rounded p-2 z-[10000]">
+                            <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to"
+                                class="block px-3 py-2 text-sm rounded hover:bg-gray-100"
+                                @click="showMobileMenu = false">
+                                {{ i.text }}
+                            </NuxtLink>
+                        </div>
+                    </div>
                     <transition name="fade-slide">
                         <div v-if="showCart"
                             class="absolute top-full mt-2 z-[9999] p-4 sm:p-4 flex flex-col bg-white border-0 shadow-xl max-w-[95vw] w-[400px] max-h-[80vh] right-0 sm:right-2"
@@ -79,28 +95,14 @@
         <!-- Hàng 2: Menu -->
         <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium text-[#012a4a]"
             style="background-size: cover;background-position: center;">
-            <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to">
+            <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to === '/learn'
+                        ? { path: '/learn', query: { reset: '1', t } }
+                        : i.to" @click="i.to === '/learn' && (t = Date.now())">
                 {{ i.text }}
             </NuxtLink>
         </nav>
 
-        <!-- Mobile: dropdown -->
-        <div class="md:hidden mt-3 flex justify-center">
-            <div class="relative">
-                <button @click="showMobileMenu = !showMobileMenu"
-                    class="px-4 py-2 border rounded bg-white text-sm flex items-center gap-1">
-                    Menu
-                    <Icon :name="showMobileMenu ? 'lucide:chevron-up' : 'lucide:chevron-down'" />
-                </button>
-                <div v-if="showMobileMenu"
-                    class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white border shadow-lg rounded p-2 z-50">
-                    <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to"
-                        class="block px-3 py-2 text-sm rounded hover:bg-gray-100" @click="showMobileMenu = false">
-                        {{ i.text }}
-                    </NuxtLink>
-                </div>
-            </div>
-        </div>
+
     </header>
     <CheckoutPopup :show="showCheckout" :cart-items="cartItems" @close="showCheckout = false"
         @submit="handleCheckoutSubmit" />
@@ -133,7 +135,7 @@
 
 
 <script setup>
-import { ref, inject, computed } from 'vue'
+import { ref, inject, computed, onBeforeUnmount } from 'vue'
 import CheckoutPopup from './CheckoutPopup.vue' // đảm bảo file này tồn tại
 import OrderSearchBox from '~/components/OrderSearchBox.vue'
 
@@ -148,10 +150,13 @@ const isSearching = ref(false)          // nếu chưa có
 const showMobileMenu = ref(false)
 const navItems = [
     { to: '/', text: 'Cửa hàng' },
-    { to: '/explore', text: 'Dịch vụ' },
+    { to: '/service', text: 'Dịch vụ' },
+    { to: '/explore', text: 'Khám phá' },
     { to: '/learn', text: 'Hướng dẫn tự làm' },
     { to: '/support', text: 'Về chúng tôi' },
 ]
+const t = ref(Date.now())
+
 // Check out
 const showCheckout = ref(false)
 const handleCheckoutSubmit = (orderData) => {
@@ -212,6 +217,13 @@ const totalPrice = computed(() =>
 const cartQuantity = computed(() =>
     cartItems.reduce((sum, item) => sum + item.quantity, 0)
 )
+
+
+onMounted(() => {
+    const handler = (e) => { showMobileMenu.value = false }
+    document.addEventListener('click', handler)
+    onBeforeUnmount(() => document.removeEventListener('click', handler))
+})
 </script>
 <style scoped>
 .fade-slide-enter-active,
