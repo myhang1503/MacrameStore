@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="min-h-screen w-full bg-[#fff7ef] flex flex-col">
+    <div class="min-h-screen w-full bg-[#f5f5f5] flex flex-col">
         <!-- Header nằm trong khối trắng -->
         <AppHeader />
 

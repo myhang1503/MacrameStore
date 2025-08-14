@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="w-full">
+    <div class="min-h-screen w-full bg-[#fff7ef] text-slate-800">
         <div v-if="!selectedId" class="w-full sm:w-full sm:h-[60vh] md:h-[50vh] overflow-auto">
             <YtPlaylistList @select="id => selectedId = id" />
         </div>

@@ -10,14 +10,15 @@ const logout = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-white">
+    <div class="min-h-screen bg-[#f5f5f5]">
         <!-- Top navbar -->
         <header class="flex items-center justify-between px-8 py-5 bg-[#dcd2c8] shadow-md">
             <!-- Menu trái -->
             <nav class="flex gap-8 text-lg font-semibold text-gray-700">
                 <NuxtLink to="/admin" active-class="text-blue-600 underline">📊 Dashboard</NuxtLink>
-                <NuxtLink to="/admin/orders" active-class="text-blue-600 underline">🧾 Orders</NuxtLink>
-                <NuxtLink to="/admin/product" active-class="text-blue-600 underline">📦 Products</NuxtLink>
+                <NuxtLink to="/admin/orders" active-class="text-blue-600 underline">🧾 Đơn hàng</NuxtLink>
+                <NuxtLink to="/admin/product" active-class="text-blue-600 underline">📦 Sản phẩm</NuxtLink>
+                <NuxtLink to="/admin/news" active-class="text-blue-600 underline"> Khám phá</NuxtLink>
             </nav>
 
             <!-- User phải -->

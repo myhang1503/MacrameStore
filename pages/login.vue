@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white shadow-xl rounded-xl w-full max-w-md p-8">
+    <div class="bg-[#f5f5f5] shadow-xl rounded-xl w-full max-w-md p-8">
         <h2 class="text-center text-2xl font-bold mb-6 text-gray-800">🔐 Đăng nhập</h2>
 
         <div v-if="error" class="text-red-500 text-sm text-center mb-4">{{ error }}</div>

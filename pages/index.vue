@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="w-full min-h-screen bg-[#f5f5f5]">
+  <div class="min-h-screen w-full bg-[#fff7ef] text-slate-800">
     <!-- Carousel (chỉ từ type Sản phẩm, ẩn khi đang search) -->
     <div v-if="carouselProducts.length"
       class="w-full sm:w-full md:w-[80vw] h-[35vh] sm:h-[60vh] md:h-[50vh] overflow-hidden relative mx-auto mt-7">

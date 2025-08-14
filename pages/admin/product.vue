@@ -36,11 +36,11 @@
                         </span>
                     </td>
                     <td class="text-center space-x-1">
-                        <button class="px-2 py-1 rounded-full bg-blue-100 text-blue-600 text-sm hover:bg-blue-200"
+                        <button class="px-2 py-1  bg-blue-100 text-blue-600 text-sm hover:bg-blue-200"
                             @click="openProductDetail(product)">Chi tiết</button>
-                        <button class="px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm hover:bg-yellow-200"
+                        <button class="px-2 py-1  bg-yellow-100 text-yellow-700 text-sm hover:bg-yellow-200"
                             @click="editProduct(product.id)">Sửa</button>
-                        <button class="px-2 py-1 rounded-full bg-red-100 text-red-600 text-sm hover:bg-red-200"
+                        <button class="px-2 py-1  bg-red-100 text-red-600 text-sm hover:bg-red-200"
                             @click="deleteProduct(product.id)">Xoá</button>
                     </td>
 
@@ -67,7 +67,8 @@
 </template>
 <script setup>
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['auth']
 })
 
 import { ref, computed, onMounted } from 'vue'

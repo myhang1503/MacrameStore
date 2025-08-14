@@ -1,4 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5'
+import { defineNuxtConfig } from 'nuxt/config'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
@@ -25,6 +29,10 @@ export default defineNuxtConfig({
     routeRules: {
       '/api/**': { headers: { 'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate' } }
     }
+  },
+  vite: {
+    plugins: [
+      ckeditor5({ theme: require.resolve('@ckeditor/ckeditor5-theme-lark') })
+    ]
   }
-
 })

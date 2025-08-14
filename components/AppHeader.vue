@@ -151,7 +151,7 @@ const showMobileMenu = ref(false)
 const navItems = [
     { to: '/', text: 'Cửa hàng' },
     { to: '/service', text: 'Dịch vụ' },
-    { to: '/explore', text: 'Khám phá' },
+    { to: '/news', text: 'Bài viết' },
     { to: '/learn', text: 'Hướng dẫn tự làm' },
     { to: '/support', text: 'Về chúng tôi' },
 ]

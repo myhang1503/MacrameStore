@@ -1,11 +1,11 @@
 ﻿<template>
     <!-- Overlay nền mờ + hỗ trợ scroll -->
     <div v-if="show && product" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm overflow-auto">
-        <div class="bg-white w-full max-w-5xl mx-auto my-10 rounded-lg shadow-xl overflow-hidden flex flex-col">
+        <div class="bg-white w-full max-w-5xl mx-auto my-10 shadow-xl overflow-hidden flex flex-col">
             <!-- Close button -->
             <div class="flex justify-end p-2">
                 <button @click="$emit('close')"
-                    class="text-white bg-orange-500 hover:bg-orange-600 rounded-full w-6 h-6 flex items-center justify-center">
+                    class="text-white bg-orange-500 hover:bg-orange-600 w-6 h-6 flex items-center justify-center">
                     ✕
                 </button>
             </div>
@@ -26,7 +26,7 @@
                     <!-- Option Plus hiển thị ở PC -->
                     <div v-if="product.option_plus?.length" class="hidden md:block w-full mt-4">
                         <div v-for="group in product.option_plus" :key="group.type" class="mb-4">
-                            <p class="font-semibold text-sm mb-1 text-gray-900">{{ group.type }}</p>
+                            <p class="font-semibold text-sm mb-1 root-text">{{ group.type }}</p>
                             <div class="flex flex-wrap gap-2">
                                 <label v-for="opt in group.options" :key="opt"
                                     class="px-4 py-1 border text-sm text-center cursor-pointer transition select-none"
@@ -55,18 +55,18 @@
                 <div class="flex-1 flex flex-col overflow-hidden">
                     <div>
                         <h2 class="text-xl font-bold">{{ product.name }}</h2>
-                        <p class="text-sm text-gray-600">{{ product.description }}</p>
+                        <p class="text-sm root-text">{{ product.description }}</p>
                     </div>
 
                     <!-- Option Plus hiển thị ở mobile -->
                     <div v-if="product.option_plus?.length" class="block md:hidden mb-3">
                         <div v-for="group in product.option_plus" :key="group.type" class="mb-4">
-                            <p class="font-semibold text-sm mb-1 text-gray-900">{{ group.type }}</p>
+                            <p class="font-semibold text-sm mb-1 root-text">{{ group.type }}</p>
                             <div class="flex flex-wrap gap-2">
                                 <label v-for="opt in group.options" :key="opt"
                                     class="px-4 py-1 border text-sm text-center cursor-pointer transition select-none"
                                     :class="{
-        'bg-black text-white border-black': selectedOptions[group.type] === opt,
+        'root-bg text-white border-black': selectedOptions[group.type] === opt,
         'bg-white text-black border-gray-300': selectedOptions[group.type] !== opt,
         'opacity-40 pointer-events-none': !isOptionAvailable(group.type, opt)
     }">
@@ -89,7 +89,7 @@
                         <p class="text-lg font-bold text-black">{{ product.price.toLocaleString() }}đ</p>
                         <button :disabled="isOutOfStock" :class="[
         'px-4 py-2 text-sm flex items-center justify-center gap-1',
-        isOutOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-black text-white'
+        isOutOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'root-bg text-white'
     ]" @click="handleAddToCart">
                             <Icon name="lucide:shopping-cart" class="w-4 h-4 inline-block" />
                             Thêm vào giỏ hàng

@@ -59,6 +59,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    layout: 'admin',
+    middleware: ['auth']
+})
 import { ref, computed, onMounted } from 'vue'
 import dayjs from 'dayjs'
 
@@ -155,8 +159,6 @@ const resetFilters = () => {
     toDate.value = ''
     page.value = 1
 }
-definePageMeta({
-    layout: 'admin'
-})
+
 
 </script>

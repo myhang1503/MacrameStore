@@ -16,7 +16,11 @@
                     <input v-model="form.name" type="text"
                         class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" />
                 </div>
-
+                <div>
+                    <label class="font-bold">Loại sản phẩm</label>
+                    <input v-model="form.type_products" type="text" placeholder="Sản phẩm,Dịch vụ...."
+                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" />
+                </div>
                 <!-- Hàng giá -->
                 <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -122,6 +126,7 @@ const emit = defineEmits(['close', 'submitted']);
 const { public: { apiBaseUrl } } = useRuntimeConfig()
 const form = reactive({
     name: '',
+    type_products: '',
     description: '',
     detail_description: '',
     price: 0,
