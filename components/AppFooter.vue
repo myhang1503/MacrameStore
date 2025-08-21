@@ -60,13 +60,13 @@
             <a href="mailto:myhang1503@gmail.com" class="hover:underline break-all">myhang1503@gmail.com</a>
           </p>
           <div class="mt-4 flex items-center gap-4 text-white/90">
-            <a href="#" aria-label="Instagram" class="hover:opacity-80">
+            <a href="https://www.instagram.com/saturday.macrame" aria-label="Instagram" class="hover:opacity-80">
               <Icon name="lucide:instagram" class="w-5 h-5" />
             </a>
-            <a href="#" aria-label="YouTube" class="hover:opacity-80">
+            <a href="https://youtube.com/@saturdaymacrame" aria-label="YouTube" class="hover:opacity-80">
               <Icon name="lucide:youtube" class="w-5 h-5" />
             </a>
-            <a href="#" aria-label="Facebook" class="hover:opacity-80">
+            <a href="https://www.facebook.com/saturdaymacrame.shop" aria-label="Facebook" class="hover:opacity-80">
               <Icon name="lucide:facebook" class="w-5 h-5" />
             </a>
           </div>
@@ -82,7 +82,7 @@
       © {{ new Date().getFullYear() }} Saturday Macrame. All rights reserved.
     </div>
 
-    <!-- Floating socials -->
+    <!-- Floating socials
     <div class="hidden md:flex flex-col gap-3 fixed right-4 bottom-24 z-40">
       <a href="#"
         class="w-11 h-11 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-500 shadow-lg flex items-center justify-center hover:scale-105 transition"
@@ -99,6 +99,6 @@
         aria-label="Messenger">
         <Icon name="lucide:message-circle" class="w-6 h-6 text-white" />
       </a>
-    </div>
+    </div> -->
   </footer>
 </template>

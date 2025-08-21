@@ -1,27 +1,27 @@
 <template>
-    <section class="px-4 py-6 max-w-7xl mx-auto">
+    <section class="px-4 py-6">
         <!-- Header + Actions -->
         <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <h1 class="text-2xl font-bold">Quản lý Tin tức</h1>
             <div class="flex items-center gap-2">
                 <input v-model="searchText" @keyup.enter="applySearch" type="text" placeholder="Tìm tiêu đề, mô tả…"
-                    class="w-56 rounded-xl border px-3 py-2">
-                <select v-model="status" class="rounded-xl border px-2 py-2">
+                    class="w-56  border px-3 py-2">
+                <select v-model="status" class=" border px-2 py-2">
                     <option value="">Tất cả</option>
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
                 </select>
-                <select v-model.number="size" class="rounded-xl border px-2 py-2">
+                <select v-model.number="size" class=" border px-2 py-2">
                     <option :value="12">12</option>
                     <option :value="24">24</option>
                     <option :value="60">60</option>
                 </select>
-                <button class="rounded-xl bg-black text-white px-4 py-2" @click="openCreate">Thêm bài</button>
+                <button class=" bg-black text-white px-4 py-2" @click="openCreate">Thêm bài</button>
             </div>
         </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto rounded-xl border">
+        <div class="overflow-x-auto  border">
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-50 text-left">
                     <tr>
@@ -41,8 +41,8 @@
                         <td colspan="7" class="px-3 py-10 text-center text-gray-500">
                             Không có dữ liệu. Thử về trang 1 hoặc đổi bộ lọc.
                             <div class="mt-3 flex justify-center gap-2">
-                                <button class="rounded-lg border px-3 py-1.5" @click="page = 1">Trang 1</button>
-                                <button class="rounded-lg border px-3 py-1.5" @click="clearSearch">Xoá tìm</button>
+                                <button class="border px-3 py-1.5" @click="page = 1">Trang 1</button>
+                                <button class="border px-3 py-1.5" @click="clearSearch">Xoá tìm</button>
                             </div>
                         </td>
                     </tr>
@@ -61,11 +61,11 @@
                         <td class="px-3 py-2">{{ formatDate(n.published_at || n.created_at) }}</td>
                         <td class="px-3 py-2">
                             <div class="flex gap-2">
-                                <button class="rounded-lg border px-2 py-1" @click="openEdit(n)">Sửa</button>
-                                <button class="rounded-lg border px-2 py-1" @click="togglePublish(n)">
+                                <button class="border px-2 py-1" @click="openEdit(n)">Sửa</button>
+                                <button class=" border px-2 py-1" @click="togglePublish(n)">
                                     {{ n.status === 'published' ? 'Đưa về draft' : 'Publish' }}
                                 </button>
-                                <button class="rounded-lg border px-2 py-1 text-red-600 border-red-300"
+                                <button class="border px-2 py-1 text-red-600 border-red-300"
                                     @click="removeItem(n)">Xoá</button>
                             </div>
                         </td>

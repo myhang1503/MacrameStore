@@ -10,8 +10,7 @@
                     <header class="sticky top-0 z-10 border-b bg-white px-4 py-3">
                         <div class="flex items-center justify-between">
                             <h2 class="font-semibold">{{ form.id ? 'Sửa bài' : 'Thêm bài' }}</h2>
-                            <button class="rounded-lg border px-3 py-1.5" @click="close"
-                                :disabled="saving">Đóng</button>
+                            <button class=" border px-3 py-1.5" @click="close" :disabled="saving">Đóng</button>
                         </div>
                     </header>
 
@@ -22,18 +21,18 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="text-sm">Tiêu đề</label>
-                                    <input v-model="form.title" class="w-full rounded-lg border px-3 py-2" />
+                                    <input v-model="form.title" class="w-full border px-3 py-2" />
                                 </div>
 
                                 <div>
                                     <label class="text-sm">Slug</label>
-                                    <input v-model="form.slug" class="w-full rounded-lg border px-3 py-2" />
+                                    <input v-model="form.slug" class="w-full border px-3 py-2" />
                                 </div>
 
                                 <div>
                                     <label class="text-sm">Tóm tắt</label>
                                     <textarea v-model="form.summary" rows="4"
-                                        class="w-full rounded-lg border px-3 py-2"></textarea>
+                                        class="w-full border px-3 py-2"></textarea>
                                 </div>
 
                                 <!-- Cover -->
@@ -41,7 +40,7 @@
                                     <label class="text-sm font-medium">Cover image</label>
                                     <div class="mt-1 flex items-start gap-3">
                                         <!-- Preview -->
-                                        <div class="h-24 w-24 rounded border bg-gray-50 overflow-hidden flex-shrink-0">
+                                        <div class="h-24 w-24 border bg-gray-50 overflow-hidden flex-shrink-0">
                                             <img v-if="coverSrc" :src="coverSrc" class="h-full w-full object-cover" />
                                             <div v-else
                                                 class="h-full w-full flex items-center justify-center text-xs text-gray-400">
@@ -49,16 +48,15 @@
                                         </div>
                                         <!-- Controls -->
                                         <div class="flex-1 space-y-2">
-                                            <input v-model="form.cover_path" class="w-full rounded-lg border px-3 py-2"
+                                            <input v-model="form.cover_path" class="w-full  border px-3 py-2"
                                                 placeholder="/news/m_1.jpg" />
                                             <div class="flex items-center gap-2">
                                                 <input ref="coverInput" type="file" accept="image/*" class="hidden"
                                                     @change="onSelectCover" />
-                                                <button type="button" class="rounded-lg border px-3 py-1.5"
+                                                <button type="button" class=" border px-3 py-1.5"
                                                     @click="coverInput.click()">Chọn ảnh</button>
                                                 <button v-if="coverSrc" type="button"
-                                                    class="rounded-lg border px-3 py-1.5 text-red-600"
-                                                    @click="clearCoverPreview">
+                                                    class=" border px-3 py-1.5 text-red-600" @click="clearCoverPreview">
                                                     Xoá xem trước
                                                 </button>
                                                 <span v-if="coverFile"
@@ -73,23 +71,22 @@
                                 <div class="mt-4">
                                     <label class="text-sm font-medium">Thumb image</label>
                                     <div class="mt-1 flex items-start gap-3">
-                                        <div class="h-20 w-20 rounded border bg-gray-50 overflow-hidden flex-shrink-0">
+                                        <div class="h-20 w-20 border bg-gray-50 overflow-hidden flex-shrink-0">
                                             <img v-if="thumbSrc" :src="thumbSrc" class="h-full w-full object-cover" />
                                             <div v-else
                                                 class="h-full w-full flex items-center justify-center text-xs text-gray-400">
                                                 No image</div>
                                         </div>
                                         <div class="flex-1 space-y-2">
-                                            <input v-model="form.thumb_path" class="w-full rounded-lg border px-3 py-2"
+                                            <input v-model="form.thumb_path" class="w-full  border px-3 py-2"
                                                 placeholder="/news/t_1.jpg" />
                                             <div class="flex items-center gap-2">
                                                 <input ref="thumbInput" type="file" accept="image/*" class="hidden"
                                                     @change="onSelectThumb" />
-                                                <button type="button" class="rounded-lg border px-3 py-1.5"
+                                                <button type="button" class="border px-3 py-1.5"
                                                     @click="thumbInput.click()">Chọn ảnh</button>
                                                 <button v-if="thumbSrc" type="button"
-                                                    class="rounded-lg border px-3 py-1.5 text-red-600"
-                                                    @click="clearThumbPreview">
+                                                    class="border px-3 py-1.5 text-red-600" @click="clearThumbPreview">
                                                     Xoá xem trước
                                                 </button>
                                                 <span v-if="thumbFile"
@@ -104,13 +101,13 @@
 
                                 <div>
                                     <label class="text-sm">Tags (comma)</label>
-                                    <input v-model="tagsStr" class="w-full rounded-lg border px-3 py-2"
+                                    <input v-model="tagsStr" class="w-full border px-3 py-2"
                                         placeholder="nuxt,vue,tailwind" />
                                 </div>
 
                                 <div>
                                     <label class="text-sm block">Status</label>
-                                    <select v-model="form.status" class="w-full rounded-lg border px-3 py-2">
+                                    <select v-model="form.status" class="w-full border px-3 py-2">
                                         <option value="draft">draft</option>
                                         <option value="published">published</option>
                                     </select>
@@ -129,7 +126,7 @@
                                             :model-value="form.content" @update:model-value="onEditorUpdate"
                                             :config="editorConfig" @ready="onEditorReady" />
                                     </div> <template #fallback> <textarea v-model="form.content" rows="12"
-                                            class="w-full h-full rounded-lg border px-3 py-2 font-mono"></textarea>
+                                            class="w-full h-full border px-3 py-2 font-mono"></textarea>
                                     </template>
                                 </ClientOnly>
                             </div>
@@ -139,9 +136,8 @@
                     <!-- footer cố định đáy -->
                     <footer class="sticky bottom-0 border-t bg-white px-4 py-3">
                         <div class="flex justify-end gap-2">
-                            <button class="rounded-lg border px-4 py-2" @click="close">Hủy</button>
-                            <button class="rounded-lg bg-black text-white px-4 py-2" @click="save"
-                                :disabled="saving">Lưu</button>
+                            <button class="border px-4 py-2" @click="close">Hủy</button>
+                            <button class="bg-black text-white px-4 py-2" @click="save" :disabled="saving">Lưu</button>
                         </div>
                     </footer>
                 </div>
