@@ -3,7 +3,7 @@
         <div class="bg-white rounded-xl shadow-lg p-4 w-[340px] relative max-h-[90vh] overflow-auto">
             <!-- Nút đóng -->
             <button @click="$emit('close')"
-                class="absolute top-2 right-2 text-gray-600 hover:text-black text-xl">×</button>
+                class="absolute top-2 right-2 text-gray-600 hover:root-text text-xl">×</button>
 
 
             <div id="print-section" class="w-[320px] p-4 text-sm font-sans border border-gray-400 mx-auto bg-white">

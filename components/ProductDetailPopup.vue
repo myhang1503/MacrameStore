@@ -31,10 +31,10 @@
                                 <label v-for="opt in group.options" :key="opt"
                                     class="px-4 py-1 border text-sm text-center cursor-pointer transition select-none"
                                     :class="{
-        'bg-black text-white border-black': selectedOptions[group.type] === opt,
-        'bg-white text-black border-gray-300': selectedOptions[group.type] !== opt,
-        'opacity-40 pointer-events-none': !isOptionAvailable(group.type, opt)
-    }">
+                                                'root-bg text-white border-black': selectedOptions[group.type] === opt,
+                                                'bg-white root-text root-border': selectedOptions[group.type] !== opt,
+                                                'opacity-40 pointer-events-none': !isOptionAvailable(group.type, opt)
+                                            }">
                                     <input type="radio" class="hidden" :name="group.type" :value="opt"
                                         v-model="selectedOptions[group.type]"
                                         :disabled="!isOptionAvailable(group.type, opt)" />
@@ -54,7 +54,7 @@
                 <!-- Right: Info + scrollable body -->
                 <div class="flex-1 flex flex-col overflow-hidden">
                     <div>
-                        <h2 class="text-xl font-bold">{{ product.name }}</h2>
+                        <p class="text-lg font-bold mb-2">{{ product.name }}</p>
                         <p class="text-sm root-text">{{ product.description }}</p>
                     </div>
 
@@ -66,13 +66,13 @@
                                 <label v-for="opt in group.options" :key="opt"
                                     class="px-4 py-1 border text-sm text-center cursor-pointer transition select-none"
                                     :class="{
-        'root-bg text-white border-black': selectedOptions[group.type] === opt,
-        'bg-white text-black border-gray-300': selectedOptions[group.type] !== opt,
-        'opacity-40 pointer-events-none': !isOptionAvailable(group.type, opt)
-    }">
+                                                'root-bg text-white root-border': selectedOptions[group.type] === opt,
+                                                'bg-white root-text root-border': selectedOptions[group.type] !== opt,
+                                                'opacity-40 pointer-events-none': !isOptionAvailable(group.type, opt)
+                                            }">
                                     <input type="radio" class="hidden" :name="group.type" :value="opt"
                                         v-model="selectedOptions[group.type]"
-                                        :disabled="!isOptionAvailable(group.type, opt)" />
+                                        :disabled="!isOptionAvailable(group.type, opt)" />testtestest
                                     {{ opt }}
                                 </label>
                             </div>
@@ -80,17 +80,20 @@
                     </div>
 
                     <!-- Detail Description -->
-                    <div class="mt-2 text-sm whitespace-pre-line pt-2 max-h-[40vh] overflow-y-auto pr-2">
-                        {{ product.detail_description }}
+                    <div class="mt-2 root-text whitespace-pre-line pt-2 max-h-[40vh] overflow-y-auto pr-2">
+                        <p class="font-bold mb-2">Chi tiết sản phẩm</p>
+                        <p class="text-sm">{{ product.detail_description }}</p>
                     </div>
 
                     <!-- Footer: Price + Add to Cart -->
                     <div class="flex justify-between items-center mt-4 border-t pt-3">
-                        <p class="text-lg font-bold text-black">{{ product.price.toLocaleString() }}đ</p>
-                        <button :disabled="isOutOfStock" :class="[
-        'px-4 py-2 text-sm flex items-center justify-center gap-1',
-        isOutOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'root-bg text-white'
-    ]" @click="handleAddToCart">
+                        <p class="text-lg font-bold root-text">{{ product.price.toLocaleString() }}đ</p>
+
+                        <button :disabled="isOutOfStock" @click="handleAddToCart" 
+                        :class="[
+                                    'px-4 py-2 text-sm flex items-center justify-center gap-1',
+                                    isOutOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'root-border-orange root-text-orange'
+                                ]" >
                             <Icon name="lucide:shopping-cart" class="w-4 h-4 inline-block" />
                             Thêm vào giỏ hàng
                         </button>

@@ -18,6 +18,7 @@
 }
 :root {
     --color-primary: #012a4a; /* tương ứng bg-orange-500 */
+    --color-orange: #d97706; 
 }
 .root-bg {
     background-color: var(--color-primary);
@@ -39,4 +40,46 @@
 .modal-body, .drawer-body, .form-section {
   overflow: visible;         /* hoặc auto nếu bạn muốn cuộn khung cha */
   max-height: none;
+}
+/*HP*/
+.header-banner {
+    padding: clamp(12px, 3vw, 24px) clamp(16px, 3.5vw, 200px);
+    place-items: center;
+    text-align: center;
+}
+.root-bg-orange{
+    background-color: #d97706;
+}
+.root-text-orange {
+    color: var(--color-orange);
+}
+.root-border-orange {
+    border: 1px solid var(--color-orange);
+}
+.badge-preorder {
+  display: inline-block;
+  background: transparent;     /* nền trong suốt */
+  color: #d97706;              /* chữ cùng màu với viền */
+  font-weight: 600;
+  padding: 0px 3px;            /* cho thoáng hơn chút */
+  text-transform: uppercase;
+  border: 1px solid #d97706;   /* viền */
+  border-radius: 3px;          /* bo góc */
+  width: auto;
+  max-width: max-content;
+}
+.badge-preorder-product {
+  display: inline-block;
+  background: transparent;     /* nền trong suốt */
+  color: #d97706;              /* chữ cùng màu với viền */
+  font-weight: 600;
+  padding: 0px 3px;            /* cho thoáng hơn chút */
+  text-transform: uppercase;
+  border: 1px solid #d97706;   /* viền */
+  border-radius: 3px;          /* bo góc */
+  width: auto;
+  max-width: max-content;
+  position: absolute;
+  bottom: 1px;  /* tương đương bottom-2 trong tailwind */
+  left: 1px;
 }

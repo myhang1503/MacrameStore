@@ -4,7 +4,7 @@
             <!-- Tiêu đề và nút đóng: sticky header -->
             <div class="sticky top-0 z-10 bg-white border-b flex items-center justify-between p-4">
                 <h2 class="text-xl font-bold text-gray-800">🧾 Đơn hàng #{{ order.order_code }}</h2>
-                <button @click="$emit('close')" class="text-gray-600 hover:text-black text-lg px-2">
+                <button @click="$emit('close')" class="text-gray-600 hover:root-text text-lg px-2">
                     ✖
                 </button>
             </div>

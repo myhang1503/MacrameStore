@@ -2,7 +2,7 @@
   <footer class="w-full">
     <!-- MAIN FOOTER -->
     <section class="root-bg text-[#e7e7e7]">
-      <div class="max-w-[1600px] mx-auto px-8 py-10 grid grid-cols-4 gap-8">
+      <div class="max-w-[1600px] mx-auto px-8 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Col 1 -->
         <div>
           <h3 class="font-bold text-white mb-3">SATURDAY MACRAME</h3>

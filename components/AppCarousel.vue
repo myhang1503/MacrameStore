@@ -5,7 +5,8 @@
             0: { slidesPerView: 1 },       // Mobile: 1 item full width
             640: { slidesPerView: 1 },   // Tablet dọc: gần 1 item
             768: { slidesPerView: 1.5 },     // Tablet ngang
-            1024: { slidesPerView: 3 }     // PC: 3 item
+            1024: { slidesPerView: 2.5 },
+            1280: { slidesPerView: 3 }     // PC: 3 item
         }" navigation pagination class="h-full w-full overflow-hidden">
 
             <SwiperSlide v-for="product in products" :key="product.id">
@@ -32,53 +33,53 @@
                     <!-- Thông tin góc dưới -->
                     <!-- Info bottom -->
 
-                    <div class="absolute bottom-0 w-full bg-black/60 text-white text-sm p-4 flex flex-col gap-2">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white text-sm p-2 flex flex-col gap-2">
                         <!-- Mã sản phẩm -->
-                        <p class="text-xs">Mã sản phẩm: #{{ product.id.toString().padStart(5, '0') }}</p>
+                        <p class="text-xs">Mã sản phẩm: #{{ product.id.toString().padStart(5, '0') }} <span class="badge-preorder">PRE-ORDER</span></p>
 
                         <!-- Tên sản phẩm -->
                         <p @click="openProductDetail(product)"
-                            class="text-base sm:text-lg font-bold break-words truncate cursor-pointer hover:underline">
-                            {{ product.name }}</p>
+                            class="text-sm font-medium break-words cursor-pointer hover:underline">
+                            {{ product.name }}
+                        </p>
 
                         <!-- Mô tả -->
-                        <p class="text-xs whitespace-normal break-words">{{ product.description }}</p>
-
+                        <!--<p class="text-xs whitespace-normal break-words">{{ product.description }}</p>-->
+                        
                         <!-- Giá + Nút -->
-                        <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <p v-if="product.discount_price > 0 && product.original_price"
                                     class="line-through text-sm text-gray-300">
                                     {{ product.original_price.toLocaleString() }} đ
                                 </p>
-                                <p class="text-lg font-bold text-yellow-500">
+                                <p class="text-base font-medium text-orange-400">
                                     {{ product.price.toLocaleString() }} đ
                                 </p>
                             </div>
                             <!-- Nếu CÓ option -->
-                            <div class="flex justify-center mt-3">
+                            <div class="flex justify-center">
                                 <button v-if="getProductButtonState(product) === 'single'"
-                                    @click="(e) => { handleAddSingleOptionToCart(product); animateAddToCart(e, product); }"
-                                    class="px-3 py-1 text-sm flex items-center gap-1 whitespace-nowrap bg-white text-black transition">
+                                        @click="(e) => { handleAddSingleOptionToCart(product); animateAddToCart(e, product); }"
+                                        class="px-2 py-1 text-sm flex items-center gap-1 whitespace-nowrap text-white transition font-medium root-bg-orange">
                                     <Icon name="lucide:shopping-cart" class="w-4 h-4" />
-                                    Thêm vào giỏ hàng
+                                    Mua ngay
                                 </button>
 
                                 <button v-else-if="getProductButtonState(product) === 'multiple'"
                                     @click="openProductDetail(product)"
-                                    class="px-3 py-1 text-sm flex items-center gap-1 whitespace-nowrap bg-white text-black transition">
+                                    class="px-2 py-1 text-sm flex items-center gap-1 whitespace-nowrap bg-white root-text transition font-medium">
                                     <Icon name="lucide:settings" class="w-4 h-4" />
                                     Chọn Option
                                 </button>
 
                                 <button v-else disabled
-                                    class="px-3 py-1 text-sm flex items-center gap-1 whitespace-nowrap bg-gray text-white transition">
+                                    class="px-2 py-1 text-sm flex items-center gap-1 whitespace-nowrap bg-gray text-white transition">
                                     <Icon name="lucide:x-circle" class="w-4 h-4" />
                                     Hết hàng
                                 </button>
                             </div>
-
-
+                            
                         </div>
                     </div>
                 </div>

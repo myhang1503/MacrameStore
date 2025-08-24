@@ -1,8 +1,11 @@
 ﻿<template>
   <div class="min-h-screen w-full bg-[#fff7ef] text-slate-800">
+    <div class="header-banner text-base root-text">
+      🍀 Khám phá niềm vui từ handmade và chọn cho mình một món thật riêng – để mỗi ngày <br/> thêm phần đặc biệt.✨
+    </div>
     <!-- Carousel (chỉ từ type Sản phẩm, ẩn khi đang search) -->
     <div v-if="carouselProducts.length"
-      class="w-full sm:w-full md:w-[80vw] h-[35vh] sm:h-[60vh] md:h-[50vh] overflow-hidden relative mx-auto mt-7">
+      class="w-full h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] xl:h-[60vh] overflow-hidden relative mx-auto mt-2">
       <AppCarousel :products="carouselProducts" class="w-full h-full object-cover" />
     </div>
 
@@ -15,34 +18,40 @@
         </h2>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
         <div v-for="(product, index) in visibleProducts" :key="product.id || 'p-' + index"
           class="relative bg-white shadow-lg overflow-hidden">
-          <img :src="resolveImg(product.main_image)" class="w-full object-cover aspect-[1/1]" />
-          <div class="px-3 pt-2 pb-3 text-center flex flex-col justify-between h-[120px]">
+
+          <div class="relative">
+            <img :src="resolveImg(product.main_image)" class="w-full object-cover aspect-[1/1]" @click="openProductDetail(product)"/>
+            <span class="badge-preorder-product" style="font-size: xx-small;">PRE-ORDER</span>
+          </div>
+
+          <div class="px-1 pt-2 pb-3 flex flex-col justify-between h-[120px]">
+            <!--Product name + price-->
             <div>
-              <p @click="openProductDetail(product)"
-                class="text-sm font-medium truncate root-text cursor-pointer hover:underline">
-                {{ product.name }}
+              <p class="line-clamp-2 root-text cursor-pointer h-[40px] leading-5 text-center">
+                <span @click="openProductDetail(product)" class="text-xs hover:underline">{{ product.name }}</span>
               </p>
-              <div class="flex flex-col items-center mt-1">
+              <div class="flex items-center justify-center gap-2 mt-1">
                 <p v-if="product.discount_price > 0 && product.original_price"
                   class="line-through text-gray-400 text-xs">
                   {{ Number(product.original_price).toLocaleString() }} đ
                 </p>
-                <p class="root-text font-bold text-sm">
+                <p class="root-text text-xs font-bold">
                   {{ Number(product.price).toLocaleString() }} đ
                 </p>
               </div>
             </div>
+
             <div class="flex justify-center mt-3">
               <button v-if="getProductButtonState(product) === 'single'"
                 @click="(e) => { handleAddSingleOptionToCart(product); animateAddToCart(e, product); }"
-                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border root-text transition">
+                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border-orange root-text-orange transition">
                 <Icon name="lucide:shopping-cart" class="w-4 h-4" /> Thêm vào giỏ hàng
               </button>
               <button v-else-if="getProductButtonState(product) === 'multiple'" @click="openProductDetail(product)"
-                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border root-text transition">
+                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border-orange root-text-orange  transition">
                 <Icon name="lucide:settings" class="w-4 h-4" /> Chọn Option
               </button>
               <button v-else disabled
@@ -80,12 +89,12 @@
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div v-for="(tool, index) in visibleTools" :key="tool.id || 't-' + index"
           class="relative bg-white shadow-lg overflow-hidden">
-          <img :src="resolveImg(tool.main_image)" class="w-full object-cover aspect-[1/1]" />
-          <div class="px-3 pt-2 pb-3 text-center flex flex-col justify-between h-[120px]">
+          <img :src="resolveImg(tool.main_image)" class="w-full object-cover aspect-[1/1]" @click="openProductDetail(tool)"/>
+          
+          <div class="px-1 pt-2 pb-3 flex flex-col justify-between h-[120px]">
             <div>
-              <p @click="openProductDetail(tool)"
-                class="text-sm font-medium truncate root-text cursor-pointer hover:underline">
-                {{ tool.name }}
+              <p class="line-clamp-2 root-text cursor-pointer h-[40px] leading-5 text-center" >
+                <span @click="openProductDetail(tool)" class="text-sm hover:underline">{{ tool.name }}</span>
               </p>
               <div class="flex flex-col items-center mt-1">
                 <p v-if="tool.discount_price > 0 && tool.original_price" class="line-through text-gray-400 text-xs">
@@ -99,11 +108,11 @@
             <div class="flex justify-center mt-3">
               <button v-if="getProductButtonState(tool) === 'single'"
                 @click="(e) => { handleAddSingleOptionToCart(tool); animateAddToCart(e, tool); }"
-                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border root-text transition">
+                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border-orange root-text-orange  transition">
                 <Icon name="lucide:shopping-cart" class="w-4 h-4" /> Thêm vào giỏ hàng
               </button>
               <button v-else-if="getProductButtonState(tool) === 'multiple'" @click="openProductDetail(tool)"
-                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border root-text transition">
+                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border-orange root-text-orange  transition">
                 <Icon name="lucide:settings" class="w-4 h-4" /> Chọn Option
               </button>
               <button v-else disabled

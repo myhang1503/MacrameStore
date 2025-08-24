@@ -18,14 +18,16 @@
 
                 <!-- Phải: Cart -->
                 <div class="flex justify-end relative">
+                    <!-- Cart button -->
                     <button @click="toggleCart"
                         class="relative w-10 h-10 flex items-center justify-center bg-white text-[#014f86] rounded transition">
                         <Icon name="lucide:shopping-cart" class="cart-icon" />
+                        <span v-if="cartItems.length" class="absolute -top-1 -right-1 text-[12px] bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                            {{ cartItems.length }}
+                        </span>
                     </button>
-                    <span v-if="cartItems.length"
-                        class="absolute -top-1 -right-1 text-[12px] bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                        {{ cartItems.length }}
-                    </span>
+                    
+                    <!-- Menu button -->
                     <div class="relative md:hidden ml-2">
                         <button @click.stop="showMobileMenu = !showMobileMenu" aria-label="Open menu"
                             class="w-10 h-10 flex items-center justify-center bg-white text-[#014f86] rounded">
@@ -93,7 +95,7 @@
             </div>
         </div>
         <!-- Hàng 2: Menu -->
-        <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium text-[#012a4a]"
+        <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium text-[#012a4a] px-0 py-1"
             style="background-size: cover;background-position: center;">
             <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to === '/learn'
                         ? { path: '/learn', query: { reset: '1', t } }
@@ -125,7 +127,7 @@
 
             <!-- Nút đóng -->
             <button v-if="loadingStatus !== 'processing'" @click="isLoading = false"
-                class="mt-4 px-4 py-2 bg-white text-black rounded hover:bg-gray-100 transition">
+                class="mt-4 px-4 py-2 bg-white root-text rounded hover:bg-gray-100 transition">
                 Đóng </button>
         </div>
     </div>
