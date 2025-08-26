@@ -1,8 +1,8 @@
 <template>
   <footer class="w-full">
     <!-- MAIN FOOTER -->
-    <section class="root-bg text-[#e7e7e7]">
-      <div class="max-w-[1600px] mx-auto px-8 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <section class="root-bg text-[#e7e7e7] flex justify-center">
+      <div class="max-w-[1600px] w-full px-8 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Col 1 -->
         <div>
           <h3 class="font-bold text-white mb-3">SATURDAY MACRAME</h3>
@@ -17,11 +17,16 @@
         <div>
           <h3 class="font-bold text-white mb-3">Thông tin</h3>
           <ul class="space-y-2 text-sm"> 
-            <li>• Hướng dẫn bảo quản</li>
-            <li>• Chính sách và hỗ trợ</li>
-            <NuxtLink to="/about-us">
-              • Về chúng tôi <span class="ml-1">›</span>
-            </NuxtLink>
+            <li>
+              <NuxtLink to="/about-us">
+                • Về chúng tôi <span class="ml-1">›</span>
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/policy-support">
+                • Chính sách và hỗ trợ <span class="ml-1">›</span>
+              </NuxtLink>
+            </li>
           </ul>
         </div>
 
@@ -30,10 +35,7 @@
           <h3 class="font-bold text-white mb-3">Liên hệ</h3>
 
           <p class="text-sm flex items-center gap-2">
-            <Icon name="lucide:map-pin" class="w-4 h-4" />Chung cư Charm Plaza 1,Ngã tư 550, đường
-            ĐT743C,Khu phố Thống Nhất 1, Phường Dĩ An, Thành phố
-            Hồ Chí Minh
-
+            <Icon name="lucide:map-pin" class="w-4 h-4" />Chung cư Charm Plaza, Ngã tư 550, Phường Dĩ An, TP.Hồ Chí Minh
           </p>
           <div class="mt-4 flex items-center gap-4 text-white/90">
             <p class="text-sm flex items-center gap-2">
@@ -63,7 +65,7 @@
 
 
     <!-- COPYRIGHT -->
-    <div class="bg-[#262626] text-[#bdbdbd] text-center text-xs py-4">
+    <div class="bg-[#262626] text-[#bdbdbd] text-center text-xs py-4 flex justify-center items-center">
       © {{ new Date().getFullYear() }} Saturday Macrame. All rights reserved.
     </div>
 
