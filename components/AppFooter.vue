@@ -7,8 +7,6 @@
         <div>
           <h3 class="font-bold text-white mb-3">SATURDAY MACRAME</h3>
           <p class="text-sm leading-relaxed opacity-90">
-            SATURDAY MACRAME<br />
-
             Saturday Macrame là nơi gửi gắm những câu chuyện bằng sợi và nút thắt tay. Mỗi sản phẩm là một món quà
             mang phong cách boho, được làm thủ công với tâm huyết và sự tỉ mỉ – độc đáo, tinh tế và mang dấu ấn cá nhân.
           </p>
@@ -16,31 +14,19 @@
 
         <!-- Col 2 -->
         <div>
-          <h3 class="font-bold text-white mb-3">HDSD &amp; HĐBQ</h3>
-          <ul class="space-y-2 text-sm">
-            <li>• Túi macrame</li>
-            <li>• Phụ kiện trang trí</li>
-            <li>• Quà tặng thủ công</li>
-            <li>• Đồ treo tường hoho</li>
-            <li>• Keychain và móc khóa</li>
-            <li>• Thiết kế theo yêu cầu</li>
+          <h3 class="font-bold text-white mb-3">Thông tin</h3>
+          <ul class="space-y-2 text-sm"> 
+            <li>• Hướng dẫn bảo quản</li>
+            <li>• Chính sách và hỗ trợ</li>
+            <NuxtLink to="/about-us">
+              • Về chúng tôi <span class="ml-1">›</span>
+            </NuxtLink>
           </ul>
         </div>
+
+        
 
         <!-- Col 3 -->
-        <div>
-          <h3 class="font-bold text-white mb-3">Chính sách và hỗ trợ</h3>
-          <ul class="space-y-2 text-sm">
-            <li><a href="#" class="hover:underline">• Hướng dẫn bảo quản sản phẩm</a></li>
-            <li><a href="#" class="hover:underline">• Chính sách đổi/trả hàng</a></li>
-            <li><a href="#" class="hover:underline">• Chính sách vận chuyển</a></li>
-            <li><a href="#" class="hover:underline">• Chính sách kiểm hàng</a></li>
-            <li><a href="#" class="hover:underline">• Chính sách giao hàng</a></li>
-            <li><a href="#" class="hover:underline">• Chính sách thanh toán</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 4 -->
         <div>
           <h3 class="font-bold text-white mb-3">Liên hệ</h3>
 

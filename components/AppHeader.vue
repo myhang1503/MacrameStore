@@ -152,10 +152,10 @@ const isSearching = ref(false)          // nếu chưa có
 const showMobileMenu = ref(false)
 const navItems = [
     { to: '/', text: 'Cửa hàng' },
+    { to: '/do-it-yourself', text: 'Hướng dẫn' },
+    { to: '/blog', text: 'Bài viết' },
     { to: '/service', text: 'Dịch vụ' },
-    { to: '/news', text: 'Bài viết' },
-    { to: '/learn', text: 'Hướng dẫn tự làm' },
-    { to: '/support', text: 'Về chúng tôi' },
+    { to: '/care-guide', text: 'Bảo quản' },
 ]
 const t = ref(Date.now())
 

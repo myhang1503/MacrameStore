@@ -54,7 +54,7 @@
                 <!-- Right: Info + scrollable body -->
                 <div class="flex-1 flex flex-col overflow-hidden">
                     <div>
-                        <p class="text-lg font-bold mb-2">{{ product.name }}</p>
+                        <p class="text-lg font-medium mb-2">{{ product.name }}</p>
                         <p class="text-sm root-text">{{ product.description }}</p>
                     </div>
 
@@ -79,15 +79,9 @@
                         </div>
                     </div>
 
-                    <!-- Detail Description -->
-                    <div class="mt-2 root-text whitespace-pre-line pt-2 max-h-[40vh] overflow-y-auto pr-2">
-                        <p class="font-bold mb-2">Chi tiết sản phẩm</p>
-                        <p class="text-sm">{{ product.detail_description }}</p>
-                    </div>
-
-                    <!-- Footer: Price + Add to Cart -->
-                    <div class="flex justify-between items-center mt-4 border-t pt-3">
-                        <p class="text-lg font-bold root-text">{{ product.price.toLocaleString() }}đ</p>
+                    <!-- Price + Add to Cart -->
+                    <div class="flex justify-between items-center mt-4 pt-3">
+                        <p class="text-lg font-medium root-text">{{ product.price.toLocaleString() }}đ</p>
 
                         <button :disabled="isOutOfStock" @click="handleAddToCart" 
                         :class="[
@@ -97,8 +91,14 @@
                             <Icon name="lucide:shopping-cart" class="w-4 h-4 inline-block" />
                             Thêm vào giỏ hàng
                         </button>
-
                     </div>
+
+                    <!-- Detail Description -->
+                    <div class="mt-2 root-text whitespace-pre-line pt-2 max-h-[40vh] overflow-y-auto pr-2 border-t">
+                        <p class="font-medium mb-2">Chi tiết sản phẩm</p>
+                        <p class="text-sm">{{ product.detail_description }}</p>
+                    </div>
+
                 </div>
             </div>
         </div>
