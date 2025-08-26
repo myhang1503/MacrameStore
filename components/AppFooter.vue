@@ -10,6 +10,7 @@
             Saturday Macrame là nơi gửi gắm những câu chuyện bằng sợi và nút thắt tay. Mỗi sản phẩm là một món quà
             mang phong cách boho, được làm thủ công với tâm huyết và sự tỉ mỉ – độc đáo, tinh tế và mang dấu ấn cá nhân.
           </p>
+          <p class="text-sm leading-relaxed opacity-90">Cuối tuần cùng macrame với mình nhé!</p>
         </div>
 
         <!-- Col 2 -->
@@ -23,8 +24,6 @@
             </NuxtLink>
           </ul>
         </div>
-
-        
 
         <!-- Col 3 -->
         <div>
