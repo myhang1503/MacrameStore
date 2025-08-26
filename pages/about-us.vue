@@ -41,10 +41,11 @@
         <p class="text-gray-700 leading-relaxed">
           Từ niềm đam mê ấy, <span class="font-medium">Saturday Macrame</span>
           ra đời như một không gian nhỏ để gửi gắm tình yêu với sự thủ công.
-          Chúng tôi tập trung vào các sản phẩm túi xách macrame handmade,
-          mang phong cách boho phóng khoáng và vintage tinh tế.
+          Chúng tôi tập trung vào các sản phẩm macrame handmade mang hơi thở boho 
+          phóng khoáng và nét vintage tinh tế – từ túi xách, wall hanging 
+          cho đến kệ treo và những món décor độc đáo.
           <br/><br/>
-          Mỗi chiếc túi không chỉ là phụ kiện, mà còn là một phần cá tính,
+          Mỗi sản phẩm không chỉ là phụ kiện, mà còn là một phần cá tính,
           một mảnh ghép phong cách riêng của bạn.
         </p>
       </div>
