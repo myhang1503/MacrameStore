@@ -6,11 +6,12 @@
         <!-- Col 1 -->
         <div>
           <h3 class="font-bold text-white mb-3">SATURDAY MACRAME</h3>
-          <p class="text-sm leading-relaxed opacity-90">
+          <p class="text-sm leading-relaxed">
             Saturday Macrame là nơi gửi gắm những câu chuyện bằng sợi và nút thắt tay. Mỗi sản phẩm là một món quà
-            mang phong cách boho, được làm thủ công với tâm huyết và sự tỉ mỉ – độc đáo, tinh tế và mang dấu ấn cá nhân.
+            được làm thủ công với tâm huyết và sự tỉ mỉ – độc đáo, tinh tế và mang dấu ấn cá nhân.
           </p>
-          <p class="text-sm leading-relaxed opacity-90">Cuối tuần cùng macrame với mình nhé!</p>
+          <br/>
+          <p class="text-sm leading-relaxed">Cuối tuần cùng macrame với mình nhé!</p>
         </div>
 
         <!-- Col 2 -->
@@ -18,12 +19,12 @@
           <h3 class="font-bold text-white mb-3">Thông tin</h3>
           <ul class="space-y-2 text-sm"> 
             <li>
-              <NuxtLink to="/about-us">
-                • Về chúng tôi <span class="ml-1">›</span>
+              <NuxtLink to="/product-care">
+                • Hướng dẫn bảo quản <span class="ml-1">›</span>
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/policy-support">
+              <NuxtLink to="/policy">
                 • Chính sách và hỗ trợ <span class="ml-1">›</span>
               </NuxtLink>
             </li>
@@ -35,26 +36,27 @@
           <h3 class="font-bold text-white mb-3">Liên hệ</h3>
 
           <p class="text-sm flex items-center gap-2">
-            <Icon name="lucide:map-pin" class="w-4 h-4" />Chung cư Charm Plaza, Ngã tư 550, Phường Dĩ An, TP.Hồ Chí Minh
+            <Icon name="lucide:map-pin" class="text-xl" />TP.Hồ Chí Minh
           </p>
           <div class="mt-4 flex items-center gap-4 text-white/90">
             <p class="text-sm flex items-center gap-2">
-              <Icon name="lucide:phone" class="w-4 h-4" /> (+84) 932 842 053
+              <Icon name="lucide:phone" class="text-xl" /> (+84) 932 842 053
             </p>
           </div>
           <p class="text-sm mt-2 flex items-center gap-2">
-            <Icon name="lucide:mail" class="w-4 h-4" />
-            <a href="mailto:myhang1503@gmail.com" class="hover:underline break-all">myhang1503@gmail.com</a>
+            <Icon name="lucide:mail" class="text-xl" />
+            saturdaymacrame.store@gmail.com
           </p>
           <div class="mt-4 flex items-center gap-4 text-white/90">
+            <span class="text-sm">Theo dõi chúng tôi tại: </span>
             <a href="https://www.instagram.com/saturday.macrame" aria-label="Instagram" class="hover:opacity-80">
-              <Icon name="lucide:instagram" class="w-5 h-5" />
+              <Icon name="lucide:instagram" class="text-2xl" />
             </a>
             <a href="https://youtube.com/@saturdaymacrame" aria-label="YouTube" class="hover:opacity-80">
-              <Icon name="lucide:youtube" class="w-5 h-5" />
+              <Icon name="lucide:youtube" class="text-2xl" />
             </a>
-            <a href="https://www.facebook.com/saturdaymacrame.shop" aria-label="Facebook" class="hover:opacity-80">
-              <Icon name="lucide:facebook" class="w-5 h-5" />
+            <a href="https://www.facebook.com/saturdaymacrame.store" aria-label="Facebook" class="hover:opacity-80">
+              <Icon name="lucide:facebook" class="text-2xl" />
             </a>
           </div>
         </div>

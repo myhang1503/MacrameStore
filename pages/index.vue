@@ -1,8 +1,11 @@
 ﻿<template>
-  <div class="min-h-screen w-full bg-[#fff7ef] text-slate-800">
-    <div class="header-banner text-base root-text">
-      🍀 Khám phá niềm vui từ handmade và chọn cho mình một món thật riêng – để mỗi ngày <br/> thêm phần đặc biệt.✨
+  <div class="min-h-screen w-full">
+    
+    <div class="header-banner text-base root-text gap-2">
+      <Icon name="mdi:clover" class="text-xl text-green-600 font-bold" />
+       Khám phá niềm vui từ handmade – chọn cho mình một món thật riêng để mỗi ngày <br/> thêm phần đặc biệt.✨
     </div>
+
     <!-- Carousel (chỉ từ type Sản phẩm, ẩn khi đang search) -->
     <div v-if="carouselProducts.length"
       class="w-full h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] xl:h-[60vh] overflow-hidden relative mx-auto mt-2">

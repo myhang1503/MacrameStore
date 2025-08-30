@@ -23,7 +23,7 @@ const logout = () => {
 
             <!-- User phải -->
             <div class="flex items-center gap-4">
-                <img src="/logo.jpg" class="w-12 h-12 rounded-full border object-cover" />
+                <img src="/logo.png" class="w-12 h-12 rounded-full border object-cover" />
                 <div class="text-right leading-tight">
                     <p class="font-bold text-base">Admin</p>
                     <button @click="logout" class="text-sm text-red-500 hover:underline">🔒 Logout</button>

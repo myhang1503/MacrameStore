@@ -1,7 +1,7 @@
 ﻿<template>
     <header class="sticky top-0 z-50 w-full">
         <!-- Hàng 1: Search - Logo - Cart -->
-        <div class="w-full bg-[#012a4a]" style="background-size: cover; background-position: center;">
+        <div class="w-full root-bg" style="background-size: cover; background-position: center;">
             <div class="grid grid-cols-3 items-center px-4 sm:px-6 py-3">
                 <!-- Trái: Search -->
                 <div class="flex items-center gap-2">
@@ -95,7 +95,7 @@
             </div>
         </div>
         <!-- Hàng 2: Menu -->
-        <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium text-[#012a4a] px-0 py-1"
+        <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium root-text px-0 py-1"
             style="background-size: cover;background-position: center;">
             <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to === '/learn'
                         ? { path: '/learn', query: { reset: '1', t } }
@@ -152,10 +152,10 @@ const isSearching = ref(false)          // nếu chưa có
 const showMobileMenu = ref(false)
 const navItems = [
     { to: '/', text: 'Cửa hàng' },
-    { to: '/do-it-yourself', text: 'Hướng dẫn' },
+    { to: '/diy', text: 'Hướng dẫn' },
     { to: '/blog', text: 'Bài viết' },
     { to: '/service', text: 'Dịch vụ' },
-    { to: '/care-guide', text: 'Bảo quản' },
+    { to: '/about-us', text: 'Về chúng tôi' },
 ]
 const t = ref(Date.now())
 

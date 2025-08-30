@@ -1,10 +1,10 @@
 ﻿<template>
-    <div class="min-h-screen w-full bg-[#f5f5f5] flex flex-col">
+    <div class="min-h-screen w-full flex flex-col">
         <!-- Header nằm trong khối trắng -->
         <AppHeader />
 
         <!-- Nội dung chính -->
-        <div class="flex-1 flex items-center justify-center">
+        <div class="flex-1 flex items-center justify-center bg-[#f5f5f5]">
             <slot />
         </div>
 
