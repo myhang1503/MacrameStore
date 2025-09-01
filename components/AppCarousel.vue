@@ -3,10 +3,10 @@
         <Swiper :modules="[Navigation, Pagination, Autoplay]" :slides-per-view="3" :centered-slides="true"
             :space-between="30" :loop="true" :autoplay="{ delay: 4000 }" :breakpoints="{
             0: { slidesPerView: 1 },       // Mobile: 1 item full width
-            640: { slidesPerView: 1 },   // Tablet dọc: gần 1 item
+            540: { slidesPerView: 1.5 },   // Tablet dọc: gần 1 item
             768: { slidesPerView: 1.5 },     // Tablet ngang
             1024: { slidesPerView: 2.5 },
-            1280: { slidesPerView: 3 }     // PC: 3 item
+            1280: { slidesPerView: 3.5 }     // PC: 3.5 item
         }" navigation pagination class="h-full w-full overflow-hidden">
 
             <SwiperSlide v-for="product in products" :key="product.id">
