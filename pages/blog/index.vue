@@ -25,7 +25,7 @@
             <template v-else>
                 <div v-if="news.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <NewsPaperCard v-for="n in news" :key="n.id" :title="n.title"
-                        :cover="n.cover_path || '/placeholder.jpg'" :thumb="n.thumb_path" @card-click="openPopup(n)" />
+                        :cover="n.cover_path || '/placeholder.jpg'" :thumb="n.thumb_path" @card-click="goDetail(n)" />
                 </div>
 
                 <!-- Empty-state nhưng vẫn GIỮ phân trang -->
@@ -56,12 +56,6 @@
 
             <NewsPopup v-model:open="isPopupOpen" :item="selected" />
         </section>
-
-        -  Quà tặng thủ công
-        - Trang trí phòng
-        - Đồ treo tường boho
-        - Keychain và móc khóa
-        - Thiết kế theo yêu cầu
     </div>
 </template>
 
@@ -122,4 +116,10 @@ function goFirst() { page.value = 1 }
 const isPopupOpen = ref(false)
 const selected = ref(null)
 const openPopup = (n) => { selected.value = n; isPopupOpen.value = true }
+console.log(selected.value);
+
+const router = useRouter()
+function goDetail(n) {
+  router.push(`/blog/${n.slug}`) // dùng dynamic route
+}
 </script>
