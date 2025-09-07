@@ -322,4 +322,13 @@ function animateAddToCart(event, product) {
     { duration: 600, easing: 'ease-in-out' }
   ).onfinish = () => img.remove()
 }
+
+// Add SEO meta for Home page
+useSeoMeta({
+  title: 'Saturday Macrame | Sản phẩm Macrame handmade độc đáo',
+  description: 'Khám phá Saturday Macrame – nơi hội tụ sản phẩm handmade Macrame tinh tế, độc đáo và mang dấu ấn cá nhân.',
+  ogTitle: 'Saturday Macrame | Sản phẩm Macrame handmade độc đáo',
+  ogDescription: 'Sản phẩm Macrame handmade độc đáo, tinh tế và mang hơi thở thủ công – Saturday Macrame.',
+  ogImage: '/cover.png'
+})
 </script>

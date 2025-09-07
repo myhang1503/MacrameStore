@@ -16,4 +16,12 @@ const selectedId = ref(null)
 
 // reset khi có ?reset=1 hoặc ?t=...
 watch(() => [route.query.reset, route.query.t], () => { selectedId.value = null }, { immediate: true })
+
+useSeoMeta({
+  title: 'DIY Macrame | Hướng dẫn tự làm sản phẩm handmade',
+  description: 'Video DIY Macrame – hướng dẫn chi tiết cách tự làm sản phẩm handmade độc đáo, dễ thực hiện và sáng tạo.',
+  ogTitle: 'DIY Macrame | Hướng dẫn tự làm sản phẩm handmade',
+  ogDescription: 'Học cách tự làm sản phẩm Macrame qua video hướng dẫn chi tiết từ cơ bản đến nâng cao.',
+  ogImage: '/diy-cover.jpg'
+})
 </script>

@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="relative w-full h-full overflow-hidden">
         <Swiper :modules="[Navigation, Pagination, Autoplay]" :slides-per-view="3" :centered-slides="true"
-            :space-between="30" :loop="true" :autoplay="{ delay: 0 }" :speed="4000" :breakpoints="{
+            :space-between="30" :loop="true" :autoplay="{ delay: 4000 }" :speed="4000" :breakpoints="{
             0: { slidesPerView: 1 },       // Mobile: 1 item full width
             540: { slidesPerView: 1.5 },   // Tablet dọc: gần 1 item
             768: { slidesPerView: 1.5 },     // Tablet ngang

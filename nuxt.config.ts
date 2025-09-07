@@ -6,7 +6,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
-  ssr: false,
+  ssr: true, //SEO
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -25,9 +25,24 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:5000'
     }
   },
-   nitro: {
+  nitro: {
     routeRules: {
-      '/api/**': { headers: { 'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate' } }
+      '/api/**': {
+        headers: {
+          'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+        }
+      }
+    },
+    prerender: {
+      routes: [
+        '/',
+        '/about-us',
+        '/blog',
+        '/service',
+        '/buying-guide',
+        '/product-care',
+        '/policy',
+      ]
     }
   },
   vite: {
