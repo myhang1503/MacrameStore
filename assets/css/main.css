@@ -83,3 +83,8 @@
   bottom: 1px;  /* tương đương bottom-2 trong tailwind */
   left: 1px;
 }
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  fill: white !important;
+}

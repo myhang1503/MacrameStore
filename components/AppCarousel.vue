@@ -1,7 +1,13 @@
 ﻿<template>
     <div class="relative w-full h-full overflow-hidden">
-        <Swiper :modules="[Navigation, Pagination, Autoplay]" :slides-per-view="3" :centered-slides="true"
-            :space-between="30" :loop="true" :autoplay="{ delay: 4000 }" :speed="4000" :breakpoints="{
+        <Swiper 
+            :modules="[Navigation, Pagination, Autoplay]" 
+            :slides-per-view="3" 
+            :centered-slides="true"
+            :space-between="30" 
+            :loop="true" 
+            :speed="4000" 
+            :breakpoints="{
             0: { slidesPerView: 1 },       // Mobile: 1 item full width
             540: { slidesPerView: 1.5 },   // Tablet dọc: gần 1 item
             768: { slidesPerView: 1.5 },     // Tablet ngang
@@ -102,11 +108,13 @@ import {
     EffectCreative
 } from 'swiper/modules'
 
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-import 'swiper/css/effect-cube'
-import 'swiper/css/effect-cards'
-import 'swiper/css/effect-creative'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
+import 'swiper/css/effect-cube';
+import 'swiper/css/effect-cards';
+import 'swiper/css/effect-creative';
 
 SwiperCore.use([Autoplay, EffectFade, EffectCube, EffectCards, EffectCreative])
 
