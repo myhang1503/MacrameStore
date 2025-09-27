@@ -7,11 +7,12 @@
     </div>
 
     <!-- Carousel (chỉ từ type Sản phẩm, ẩn khi đang search) -->
+     <client-only>
     <div v-if="carouselProducts.length"
       class="w-full h-[55vh] sm:h-[55vh] md:h-[50vh] lg:h-[55vh] xl:h-[60vh] overflow-hidden relative mx-auto mt-2">
       <AppCarousel :products="carouselProducts" class="w-full h-full object-cover" />
     </div>
-
+    </client-only>
     <!-- ===== SẢN PHẨM ===== -->
     <div class="px-6 py-8">
       <div class="text-center mb-6">

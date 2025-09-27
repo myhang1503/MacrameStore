@@ -6,7 +6,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
-  ssr: true, //SEO
+  ssr: false, //SEO
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -18,11 +18,15 @@ export default defineNuxtConfig({
   ui: {
     prefix: 'Nuxt',
   },
+   build: {
+    // Bắt Nuxt transpile toàn bộ packages CKEditor (để Vite xử lý)
+    transpile: [/^@ckeditor\/.*/]
+  },
   runtimeConfig: {
     youtubeApiKey: process.env.YT_API_KEY, // private
     youtubeChannelId: process.env.YT_CHANNEL_ID, // private
     public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:5000'
+    apiBaseUrl: '/api'
     }
   },
   nitro: {
@@ -42,12 +46,19 @@ export default defineNuxtConfig({
         '/buying-guide',
         '/product-care',
         '/policy',
-      ]
+      ],
+      ignore: ['/admin', '/admin/**'], 
     }
   },
   vite: {
     plugins: [
       ckeditor5({ theme: require.resolve('@ckeditor/ckeditor5-theme-lark') })
-    ]
+    ],
+    ssr: {
+      // Quan trọng: Đừng externalize CKEditor lúc SSR
+      noExternal: [/^@ckeditor\/.*/]
+    },
+   
+    
   }
 })

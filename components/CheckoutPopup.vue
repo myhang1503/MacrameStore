@@ -159,7 +159,8 @@
                 <!-- Tổng cộng -->
                 <div class="text-right text-sm pt-4">
                     <p class="text-gray-600">Tạm tính: {{ subtotal.toLocaleString() }}đ</p>
-                    <p class="text-gray-600">Phí ship: {{ form.shipping_fee.toLocaleString() }}đ</p>
+                    <p class="text-gray-600">Phí ship: Tư vấn viên sẽ liên lạc với bạn khi xác nhận đơn hàng</p>
+                     <!-- <p class="text-gray-600">Phí ship: {{ form.shipping_fee.toLocaleString() }}đ</p> -->
                     <p class="text-gray-600">VAT ({{ form.vat_rate }}%): {{ vatAmount.toLocaleString() }}đ</p>
                     <p class="text-gray-600">Giảm giá: {{ form.discount_amount.toLocaleString() }}đ</p>
                     <p class="text-lg font-bold">Tổng cộng: {{ totalPrice.toLocaleString() }}đ</p>
@@ -348,7 +349,7 @@ watch(
 
         // ✅ Chỉ xử lý khi đủ cả 3 giá trị
         if (provinceName.value && districtName.value && wardName.value) {
-            form.shipping_address = `${form.address_detail}, ${toTitleCase(wardName.value)}, ${toTitleCase(districtName.value)}, ${toTitleCase(provinceName.value)}`
+            form.shipping_address = `${form.address_detail}, ${toTitleCase(wardName.value)}, ${toTitleCase(provinceName.value)}`
 
         } else {
             form.shipping_address = ''
