@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="relative w-full h-full overflow-hidden">
         <Swiper 
-            :modules="[Navigation, Pagination, Autoplay]" 
+            :modules="[Navigation]" 
             :slides-per-view="3" 
             :centered-slides="true"
             :space-between="30" 

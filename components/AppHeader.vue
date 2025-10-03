@@ -113,8 +113,7 @@
         class="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center text-white text-lg">
         <div class="flex flex-col items-center">
             <!-- LOGO -->
-            <video src="/loading-logo.mp4" autoplay loop muted playsinline
-                class="w-32 h-32 mb-4 object-contain"></video>
+            <img src="/loading.gif" alt="Loading..." class="w-32 h-32 mb-4 object-contain" />
             <!-- TEXT -->
             <p class="text-white text-lg font-semibold mb-1">
                 {{ loadingMessage }}

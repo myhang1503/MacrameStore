@@ -46,7 +46,7 @@
 
                     <!-- Hover preview (PC only) -->
                     <div v-if="hoveredImage"
-                        class="hidden md:block absolute top-0 left-full ml-4 w-[300px] z-20 border shadow-xl bg-white">
+                        class="hidden md:block absolute top-0 left-full ml-4 w-[500px] z-20 border shadow-xl bg-white">
                         <img :src="hoveredImage" alt="Preview" class="w-full h-auto object-contain" />
                     </div>
                 </div>
