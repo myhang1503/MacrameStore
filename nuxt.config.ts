@@ -3,6 +3,7 @@
 import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5'
 import { defineNuxtConfig } from 'nuxt/config'
 
+                  
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
@@ -12,8 +13,9 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/image',
-    '@nuxt/ui'
+    '@nuxt/ui',
   ],
+  
   css: ['~/assets/css/main.css'],
   ui: {
     prefix: 'Nuxt',
@@ -29,6 +31,7 @@ export default defineNuxtConfig({
     apiBaseUrl: '/api'
     }
   },
+  
   nitro: {
     routeRules: {
       '/api/**': {
@@ -62,3 +65,4 @@ export default defineNuxtConfig({
     
   }
 })
+

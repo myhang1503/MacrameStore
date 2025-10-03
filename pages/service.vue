@@ -104,7 +104,7 @@ const services = [
   },
   {
     title: "DIY Kit – Tự tay làm tại nhà",
-    image: "/services/diy.webp",
+    image: "/services/diy.jpg",
     alt: "Bộ DIY Kit Macrame – tự tay làm tại nhà",
     items: [
       "Bộ nguyên liệu + hướng dẫn chi tiết",
