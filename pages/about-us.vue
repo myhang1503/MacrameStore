@@ -3,8 +3,7 @@
     <div class="max-w-6xl mx-auto px-4">
       <!-- Tiêu đề -->
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-10">
-        <Icon name="mdi:clover" class="text-green-600 text-2xl" /> 
-        Giới thiệu về <span class="text-green-700">Saturday Macrame</span>
+        🌈 Giới thiệu về <span class="text-green-700">Saturday Macrame</span>
       </h2>
 
       <!-- Phần 1 -->

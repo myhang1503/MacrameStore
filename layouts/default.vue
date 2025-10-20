@@ -68,8 +68,12 @@ function addToCart(product) {
         });
     }
 }
-
+function clearCart() {
+    cartItems.splice(0, cartItems.length)
+    localStorage.removeItem('cart') 
+    console.log("Clear");
+}
 provide('cartItems', cartItems)
 provide('addToCart', addToCart)
-
+provide('clearCart', clearCart)
 </script>

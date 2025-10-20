@@ -72,7 +72,7 @@
                                             }">
                                     <input type="radio" class="hidden" :name="group.type" :value="opt"
                                         v-model="selectedOptions[group.type]"
-                                        :disabled="!isOptionAvailable(group.type, opt)" />testtestest
+                                        :disabled="!isOptionAvailable(group.type, opt)" />
                                     {{ opt }}
                                 </label>
                             </div>

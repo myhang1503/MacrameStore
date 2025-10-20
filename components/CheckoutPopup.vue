@@ -248,8 +248,6 @@ const toTitleCase = (str) => {
         .join(' ')
 }
 
-
-
 const provinces = ref([])
 const districts = ref([])
 const wards = ref([])

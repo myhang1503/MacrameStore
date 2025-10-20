@@ -2,8 +2,7 @@
   <div class="min-h-screen w-full">
     
     <div class="header-banner text-base root-text gap-2">
-      <Icon name="mdi:clover" class="text-xl text-green-600 font-bold" />
-       Khám phá niềm vui từ handmade – chọn cho mình một món thật riêng để mỗi ngày <br/> thêm phần đặc biệt.✨
+      🌈Khám phá niềm vui từ handmade – chọn cho mình một món thật riêng để mỗi ngày <br/> thêm phần đặc biệt.✨
     </div>
 
     <!-- Carousel (chỉ từ type Sản phẩm, ẩn khi đang search) -->

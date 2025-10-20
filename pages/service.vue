@@ -3,8 +3,7 @@
     <div class="max-w-6xl mx-auto px-4">
       <!-- Hero -->
       <h1 class="text-3xl md:text-4xl font-bold text-center mb-10">
-        <Icon name="mdi:clover" class="text-green-600 text-2xl" /> 
-        Dịch vụ tại <span class="text-green-700">Saturday Macrame</span>
+        💫 Dịch vụ tại <span class="text-green-700">Saturday Macrame</span>
       </h1>
 
       <!-- Services Grid -->

@@ -11,7 +11,6 @@
                 <!-- Giữa: Logo -->
                 <div class="flex items-center justify-center">
                     <NuxtLink to="/" class="flex items-center gap-2 font-bold text-lg text-white">
-
                         <span>Saturday Macrame</span>
                     </NuxtLink>
                 </div>
@@ -22,11 +21,12 @@
                     <button @click="toggleCart"
                         class="relative w-10 h-10 flex items-center justify-center bg-white text-[#014f86] rounded transition">
                         <Icon name="lucide:shopping-cart" class="cart-icon" />
-                        <span v-if="cartItems.length" class="absolute -top-1 -right-1 text-[12px] bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                        <span v-if="cartItems.length"
+                            class="absolute -top-1 -right-1 text-[12px] bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">
                             {{ cartItems.length }}
                         </span>
                     </button>
-                    
+
                     <!-- Menu button -->
                     <div class="relative md:hidden ml-2">
                         <button @click.stop="showMobileMenu = !showMobileMenu" aria-label="Open menu"
@@ -82,12 +82,10 @@
                                     <span>Tạm tính: <span>{{ cartQuantity }} món</span></span>
                                     <span class="text-orange-600">{{ totalPrice.toLocaleString() }}₫</span>
                                 </div>
-                                <button @click="showCheckout = true" class="w-full px-4 py-2 text-sm transition
-                 root-bg text-white
-                 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
-                                    :disabled="cartItems.length === 0">
-                                    Thanh toán
-                                </button>
+
+                                <button @click="goToCheckout" @submit="handleCheckoutSubmit"
+                                    class="block text-center w-full px-4 py-2 text-sm transition root-bg text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                    :class="{ 'pointer-events-none opacity-50': cartItems.length === 0 }"> Thanh toán</button>
                             </div>
                         </div>
                     </transition>
@@ -98,16 +96,12 @@
         <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium root-text px-0 py-1"
             style="background-size: cover;background-position: center;">
             <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to === '/learn'
-                        ? { path: '/learn', query: { reset: '1', t } }
-                        : i.to" @click="i.to === '/learn' && (t = Date.now())">
+                ? { path: '/learn', query: { reset: '1', t } }
+                : i.to" @click="i.to === '/learn' && (t = Date.now())">
                 {{ i.text }}
             </NuxtLink>
         </nav>
-
-
     </header>
-    <CheckoutPopup :show="showCheckout" :cart-items="cartItems" @close="showCheckout = false"
-        @submit="handleCheckoutSubmit" />
 
     <div v-if="isLoading"
         class="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center text-white text-lg">
@@ -134,13 +128,14 @@
 
 </template>
 
-
 <script setup>
-import { ref, inject, computed, onBeforeUnmount } from 'vue'
-import CheckoutPopup from './CheckoutPopup.vue' // đảm bảo file này tồn tại
+import { ref, inject, computed, onBeforeUnmount,provide } from 'vue'
+
 import OrderSearchBox from '~/components/OrderSearchBox.vue'
+import { useRouter } from 'vue-router'
 
 const { public: { apiBaseUrl } } = useRuntimeConfig()
+const router = useRouter()
 
 const showCart = ref(false)
 const cartItems = inject('cartItems', [])
@@ -207,10 +202,7 @@ function removeItem(item) {
     const index = cartItems.indexOf(item)
     if (index !== -1) cartItems.splice(index, 1)
 }
-function clearCart() {
-    cartItems.splice(0, cartItems.length)
-    localStorage.removeItem('cart') // nếu bạn có lưu giỏ hàng vào localStorage
-}
+
 
 const totalPrice = computed(() =>
     cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -219,12 +211,18 @@ const cartQuantity = computed(() =>
     cartItems.reduce((sum, item) => sum + item.quantity, 0)
 )
 
-
 onMounted(() => {
     const handler = (e) => { showMobileMenu.value = false }
     document.addEventListener('click', handler)
     onBeforeUnmount(() => document.removeEventListener('click', handler))
 })
+
+const goToCheckout = () => {
+    showCart.value = !showCart.value
+    localStorage.setItem('checkoutCart', JSON.stringify(cartItems))
+    navigateTo('/checkout')
+}
+
 </script>
 <style scoped>
 .fade-slide-enter-active,

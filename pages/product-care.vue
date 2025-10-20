@@ -4,7 +4,7 @@
       
       <!-- Hero -->
       <div class="relative bg-green-50 py-6 px-6 rounded-lg mb-6 text-center">
-        <Icon name="mdi:clover" class="text-green-600 text-4xl mb-3 mx-auto" />
+        <Icon name="mdi:shield-check" class="text-green-600 text-4xl mb-3 mx-auto" />
         <h1 class="text-3xl md:text-4xl font-bold mb-4">
           Hướng dẫn bảo quản túi Macrame
         </h1>
