@@ -9,7 +9,7 @@
           <p class="text-sm leading-relaxed">Saturday Macrame – nơi gửi gắm câu chuyện bằng sợi và nút thắt tay.</p>
           <p class="text-sm leading-relaxed">Mỗi sản phẩm là món quà thủ công đầy tâm huyết, tinh tế và mang dấu ấn cá nhân.</p>
           <p class="text-sm leading-relaxed">
-            🐾 Hãy cùng khám phá thế giới Macrame – mang hơi thở thủ công vào cuộc sống.
+            🌈Hãy cùng khám phá thế giới Macrame – mang hơi thở thủ công vào cuộc sống.
           </p>
         </div>
 

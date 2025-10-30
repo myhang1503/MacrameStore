@@ -75,7 +75,7 @@
                                     <button @click="removeItem(item)" class="text-red-400 text-sm">✕</button>
                                 </div>
                             </div>
-
+                            <div class="text-gray-600">📦 Lưu ý: Thời gian nhận hàng dự kiến 15 ngày kể từ khi xác nhận đặt cọc.</div>
                             <!-- Tạm tính + nút thanh toán -->
                             <div class="pt-4 mt-4">
                                 <div class="flex justify-between mb-2 text-sm font-semibold">
@@ -150,6 +150,7 @@ const navItems = [
     { to: '/blog', text: 'Bài viết' },
     { to: '/service', text: 'Dịch vụ' },
     { to: '/about-us', text: 'Về chúng tôi' },
+    { to: '/my-order', text: 'Đơn hàng' }
 ]
 const t = ref(Date.now())
 

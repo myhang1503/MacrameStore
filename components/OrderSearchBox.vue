@@ -66,7 +66,11 @@ async function handleSearch() {
             const res = await fetch(`${apiBaseUrl}/orders/${encodeURIComponent(q)}`)
             if (!res.ok) throw new Error(res.status === 404 ? 'Không tìm thấy đơn hàng' : 'Lỗi tra cứu')
             orderDetail.value = await res.json()
-            showPopup.value = true
+            //showPopup.value = true
+            router.push({
+                path: '/my-order',
+                query: { code: orderDetail.value.order_code } // hoặc query: { code: q }
+            })
         } catch (e) {
             error.value = e.message || 'Có lỗi xảy ra'
         } finally {
