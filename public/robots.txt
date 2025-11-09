@@ -1,2 +1,11 @@
-User-Agent: *
-Disallow:
+User-agent: *
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Pinterest
+Allow: /

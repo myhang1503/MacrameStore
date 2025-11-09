@@ -58,7 +58,7 @@
                             <td class="text-right font-mono">{{ formatMoney(order.total_price_before_tax) }}</td>
                         </tr>
                         <tr>
-                            <td>Thuế GTGT (10%):</td>
+                            <td>VAT:</td>
                             <td class="text-right font-mono">{{ formatMoney(order.vat_amount) }}</td>
                         </tr>
                         <tr>

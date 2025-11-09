@@ -75,7 +75,8 @@
                                     <button @click="removeItem(item)" class="text-red-400 text-sm">✕</button>
                                 </div>
                             </div>
-                            <div class="text-gray-600">📦 Lưu ý: Thời gian nhận hàng dự kiến 15 ngày kể từ khi xác nhận đặt cọc.</div>
+                            <div class="text-gray-600">📦 Lưu ý: Sau khi shop xác nhận nhận cọc, đơn hàng của bạn sẽ
+                                được giao dự kiến trong khoảng 15 ngày.</div>
                             <!-- Tạm tính + nút thanh toán -->
                             <div class="pt-4 mt-4">
                                 <div class="flex justify-between mb-2 text-sm font-semibold">
@@ -85,7 +86,8 @@
 
                                 <button @click="goToCheckout" @submit="handleCheckoutSubmit"
                                     class="block text-center w-full px-4 py-2 text-sm transition root-bg text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
-                                    :class="{ 'pointer-events-none opacity-50': cartItems.length === 0 }"> Thanh toán</button>
+                                    :class="{ 'pointer-events-none opacity-50': cartItems.length === 0 }"> Thanh
+                                    toán</button>
                             </div>
                         </div>
                     </transition>
@@ -96,8 +98,8 @@
         <nav class="hidden md:flex bg-[#ced2d8] justify-center gap-6 text-sm font-medium root-text px-0 py-1"
             style="background-size: cover;background-position: center;">
             <NuxtLink v-for="i in navItems" :key="i.to" :to="i.to === '/learn'
-                ? { path: '/learn', query: { reset: '1', t } }
-                : i.to" @click="i.to === '/learn' && (t = Date.now())">
+                        ? { path: '/learn', query: { reset: '1', t } }
+                        : i.to" @click="i.to === '/learn' && (t = Date.now())">
                 {{ i.text }}
             </NuxtLink>
         </nav>
@@ -129,7 +131,7 @@
 </template>
 
 <script setup>
-import { ref, inject, computed, onBeforeUnmount,provide } from 'vue'
+import { ref, inject, computed, onBeforeUnmount, provide } from 'vue'
 
 import OrderSearchBox from '~/components/OrderSearchBox.vue'
 import { useRouter } from 'vue-router'

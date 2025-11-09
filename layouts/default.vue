@@ -41,6 +41,7 @@ watch(cartItems, () => {
 // 🔹 3. Hàm thêm vào giỏ
 
 function addToCart(product) {
+    console.log(" product quantity:", product.quantity.value)
     const normalizeOptions = (options) => {
         const sorted = Object.keys(options || {}).sort().reduce((obj, key) => {
             obj[key] = options[key];
@@ -57,20 +58,20 @@ function addToCart(product) {
     );
 
     if (existing) {
-        existing.quantity++;
+        existing.quantity += product.quantity;
     } else {
         // Clone sâu selectedOptions để Vue nhận diện khác biệt
         const clonedOptions = JSON.parse(JSON.stringify(product.selectedOptions || {}));
         cartItems.push({
             ...product,
             selectedOptions: clonedOptions,
-            quantity: 1
+            quantity: product.quantity || 1
         });
     }
 }
 function clearCart() {
     cartItems.splice(0, cartItems.length)
-    localStorage.removeItem('cart') 
+    localStorage.removeItem('cart')
     console.log("Clear");
 }
 provide('cartItems', cartItems)

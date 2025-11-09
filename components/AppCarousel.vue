@@ -1,13 +1,7 @@
 ﻿<template>
     <div class="relative w-full h-full overflow-hidden">
-        <Swiper 
-            :modules="[Navigation]" 
-            :slides-per-view="3" 
-            :centered-slides="true"
-            :space-between="30" 
-            :loop="true" 
-            :speed="4000" 
-            :breakpoints="{
+        <Swiper :modules="[Navigation]" :slides-per-view="3" :centered-slides="true" :space-between="30" :loop="true"
+            :speed="4000" :breakpoints="{
             0: { slidesPerView: 1 },       // Mobile: 1 item full width
             540: { slidesPerView: 1.5 },   // Tablet dọc: gần 1 item
             768: { slidesPerView: 1.5 },     // Tablet ngang
@@ -19,7 +13,8 @@
                 <div class="relative w-full h-full overflow-hidden">
                     <!-- Ảnh chính -->
                     <img :src="`${product.main_image}`" alt="Product"
-                        class="sm:h-full sm:w-full md:object-cover sm:object-container" @click="openProductDetail(product)" />
+                        class="sm:h-full sm:w-full md:object-cover sm:object-container"
+                        @click="openProductDetail(product)" />
 
                     <!-- Badge góc trên trái -->
                     <!--<div class="absolute top-3 left-3 flex flex-col gap-2 z-10">
@@ -41,7 +36,8 @@
 
                     <div class="absolute bottom-0 w-full bg-black/60 text-white text-sm p-2 flex flex-col gap-2">
                         <!-- Mã sản phẩm -->
-                        <p class="text-xs">Mã sản phẩm: #{{ product.id.toString().padStart(5, '0') }} <span class="badge-preorder">PRE-ORDER</span></p>
+                        <p class="text-xs">Mã sản phẩm: #{{ product.id.toString().padStart(5, '0') }} <span
+                                class="badge-preorder">PRE-ORDER</span></p>
 
                         <!-- Tên sản phẩm -->
                         <p @click="openProductDetail(product)"
@@ -51,7 +47,7 @@
 
                         <!-- Mô tả -->
                         <!--<p class="text-xs whitespace-normal break-words">{{ product.description }}</p>-->
-                        
+
                         <!-- Giá + Nút -->
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
@@ -66,8 +62,8 @@
                             <!-- Nếu CÓ option -->
                             <div class="flex justify-center">
                                 <button v-if="getProductButtonState(product) === 'single'"
-                                        @click="(e) => { handleAddSingleOptionToCart(product); animateAddToCart(e, product); }"
-                                        class="px-2 py-1 text-sm flex items-center gap-1 whitespace-nowrap text-white transition font-medium root-bg-orange">
+                                    @click="(e) => { handleAddSingleOptionToCart(product); animateAddToCart(e, product); }"
+                                    class="px-2 py-1 text-sm flex items-center gap-1 whitespace-nowrap text-white transition font-medium root-bg-orange">
                                     <Icon name="lucide:shopping-cart" class="w-4 h-4" />
                                     Mua ngay
                                 </button>
@@ -85,18 +81,18 @@
                                     Hết hàng
                                 </button>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
             </SwiperSlide>
         </Swiper>
     </div>
-    <ProductDetailPopup :show="showDetailPopup" :product="selectedProduct" @close="showDetailPopup = false" />
+
 </template>
 
 <script setup>
-import ProductDetailPopup from '@/components/ProductDetailPopup.vue'
+import { useRoute } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import SwiperCore from 'swiper'
 import {
@@ -121,6 +117,11 @@ SwiperCore.use([Autoplay, EffectFade, EffectCube, EffectCards, EffectCreative])
 const props = defineProps({
     products: Array
 })
+const router = useRouter()
+
+function openProductDetail(product) {
+    router.push(`/product/${product.id}`)
+}
 
 const addToCart = inject('addToCart')
 
@@ -167,13 +168,6 @@ function animateAddToCart(event, product) {
     }
 }
 
-const selectedProduct = ref(null)
-const showDetailPopup = ref(false)
-
-const openProductDetail = (product) => {
-    selectedProduct.value = product
-    showDetailPopup.value = true
-}
 
 function getProductButtonState(product) {
     const variants = product.variants || []

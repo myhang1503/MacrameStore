@@ -1,16 +1,16 @@
 ﻿<template>
   <div class="min-h-screen w-full">
-    
+
     <div class="header-banner text-base root-text gap-2">
-      🌈Khám phá niềm vui từ handmade – chọn cho mình một món thật riêng để mỗi ngày <br/> thêm phần đặc biệt.✨
+      🌈Khám phá niềm vui từ handmade – chọn cho mình một món thật riêng để mỗi ngày <br /> thêm phần đặc biệt.✨
     </div>
 
     <!-- Carousel (chỉ từ type Sản phẩm, ẩn khi đang search) -->
-     <client-only>
-    <div v-if="carouselProducts.length"
-      class="w-full h-[55vh] sm:h-[55vh] md:h-[50vh] lg:h-[55vh] xl:h-[60vh] overflow-hidden relative mx-auto mt-2">
-      <AppCarousel :products="carouselProducts" class="w-full h-full object-cover" />
-    </div>
+    <client-only>
+      <div v-if="carouselProducts.length"
+        class="w-full h-[55vh] sm:h-[55vh] md:h-[50vh] lg:h-[55vh] xl:h-[60vh] overflow-hidden relative mx-auto mt-2">
+        <AppCarousel :products="carouselProducts" class="w-full h-full object-cover" />
+      </div>
     </client-only>
     <!-- ===== SẢN PHẨM ===== -->
     <div class="px-6 py-8">
@@ -26,7 +26,8 @@
           class="relative bg-white shadow-lg overflow-hidden">
 
           <div class="relative">
-            <img :src="resolveImg(product.main_image)" class="w-full object-cover aspect-[1/1]" @click="openProductDetail(product)"/>
+            <img :src="resolveImg(product.main_image)" class="w-full object-cover aspect-[1/1]"
+              @click="openProductDetail(product)" />
             <span class="badge-preorder-product" style="font-size: xx-small;">PRE-ORDER</span>
           </div>
 
@@ -92,11 +93,12 @@
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div v-for="(tool, index) in visibleTools" :key="tool.id || 't-' + index"
           class="relative bg-white shadow-lg overflow-hidden">
-          <img :src="resolveImg(tool.main_image)" class="w-full object-cover aspect-[1/1]" @click="openProductDetail(tool)"/>
-          
+          <img :src="resolveImg(tool.main_image)" class="w-full object-cover aspect-[1/1]"
+            @click="openProductDetail(tool)" />
+
           <div class="px-1 pt-2 pb-3 flex flex-col justify-between h-[120px]">
             <div>
-              <p class="line-clamp-2 root-text cursor-pointer h-[40px] leading-5 text-center" >
+              <p class="line-clamp-2 root-text cursor-pointer h-[40px] leading-5 text-center">
                 <span @click="openProductDetail(tool)" class="text-sm hover:underline">{{ tool.name }}</span>
               </p>
               <div class="flex flex-col items-center mt-1">
@@ -118,10 +120,7 @@
                 class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap root-border-orange root-text-orange  transition">
                 <Icon name="lucide:settings" class="w-4 h-4" /> Chọn Option
               </button>
-              <button v-else disabled
-                class="w-full sm:w-auto px-3 py-1 text-sm flex items-center justify-center gap-1 whitespace-nowrap border border-gray-300 text-gray-400 cursor-not-allowed rounded transition">
-                <Icon name="lucide:x-circle" class="w-4 h-4" /> Hết hàng
-              </button>
+
             </div>
           </div>
         </div>
@@ -147,15 +146,20 @@
     <Icon name="lucide:arrow-up" class="w-6 h-6" />
   </button>
 
-  <ProductDetailPopup :show="showDetailPopup" :product="selectedProduct" @close="showDetailPopup = false" />
+
 </template>
 
 <script setup>
-import ProductDetailPopup from '@/components/ProductDetailPopup.vue'
+
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const { public: { apiBaseUrl } } = useRuntimeConfig()
+const router = useRouter()
+
+function openProductDetail(product) {
+  router.push(`/product/${product.id}`)
+}
 
 const addToCart = inject('addToCart')
 const showScrollTop = ref(false)
@@ -280,10 +284,6 @@ onMounted(() => { window.addEventListener('scroll', onScroll, { passive: true })
 onUnmounted(() => window.removeEventListener('scroll', onScroll))
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }) }
 
-// Popup + nút
-const selectedProduct = ref(null)
-const showDetailPopup = ref(false)
-function openProductDetail(p) { selectedProduct.value = p; showDetailPopup.value = true }
 
 function getProductButtonState(product) {
   const variants = Array.isArray(product.variants) ? product.variants : []
@@ -299,6 +299,8 @@ function handleAddSingleOptionToCart(product) {
   const rawOptions = Array.isArray(valid[0].options) ? valid[0].options : []
   const selectedOptions = {}
   for (const opt of rawOptions) if (opt?.label && opt?.value) selectedOptions[opt.label] = opt.value
+  console.log("product", product);
+  console.log("selectedOptions", selectedOptions);
   addToCart?.({ ...product, quantity: 1, selectedOptions })
 }
 function animateAddToCart(event, product) {

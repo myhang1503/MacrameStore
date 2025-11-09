@@ -94,7 +94,9 @@
             <label class="block text-sm font-medium mb-1 text-gray-600">Địa chỉ đầy đủ:</label>
             <p class="text-sm text-gray-700">{{ form.shipping_address }}</p>
           </div>
-
+          <p v-if="shipping_fee_error" class="text-sm mt-1" :class="shipping_fee_error ? 'text-red-500' : ''">
+            {{ shipping_fee_error_Message }}
+          </p>
           <!-- Hóa đơn VAT -->
           <label class="flex items-center gap-2">
             <input type="checkbox" v-model="form.invoice_required" />
@@ -137,12 +139,39 @@
 
           <!-- Phương thức thanh toán -->
           <div>
-            <label class="block text-sm font-medium mb-1">Phương thức thanh toán <b class="text-red-600">*</b></label>
-            <select v-model="form.payment_method" class="border p-2 rounded w-full">
-              <option value="COD">Thanh toán khi nhận hàng (COD)</option>
-            </select>
-          </div>
+            <label class="block text-sm font-medium mb-1">
+              Phương thức thanh toán <b class="text-red-600">*</b>
+            </label>
 
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center">
+                <input type="radio" value="BANK" v-model="form.payment_method" class="mr-2" />
+                Chuyển khoản ngân hàng (BANK)
+              </label>
+              <label class="flex items-center">
+                <input type="radio" value="COD" v-model="form.payment_method" class="mr-2" />
+                Thanh toán khi nhận hàng (COD)
+              </label>
+
+
+            </div>
+
+            <!-- Thông báo cọc 50% khi chọn COD -->
+            <div v-if="form.payment_method === 'COD'" class="mt-2 text-sm text-orange-600 bg-orange-50 p-2 rounded">
+              * Vui lòng cọc trước ({{ (totalPrice / 2).toLocaleString() }}₫). Thông tin tài
+              khoản sẽ được shop gửi qua mail sau khi xác nhận đặt hàng
+            </div>
+            <div v-if="form.payment_method === 'BANK'" class="mt-2 text-sm text-orange-600 bg-orange-50 p-2 rounded">
+              * Thông tin tài khoản sẽ được shop gửi qua mail sau khi xác nhận đặt hàng
+            </div>
+
+
+          </div>
+          <div class="mb-4">
+            <p class="text-sm mt-1 text-red-500">
+              *Lưu ý: Sau khi shop xác nhận nhận cọc, đơn hàng sẽ được giao dự kiến trong khoảng 15 ngày.
+            </p>
+          </div>
           <!-- Tổng tiền -->
           <div class="text-right text-sm pt-4 border-t">
             <p class="text-gray-600">Tạm tính: {{ subtotal.toLocaleString() }}đ</p>
@@ -162,31 +191,30 @@
     </div>
   </div>
 
-  <div v-if="isLoading"
-        class="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center text-white text-lg">
-        <div class="flex flex-col items-center">
-            <!-- LOGO -->
-            <img src="/loading.gif" alt="Loading..." class="w-32 h-32 mb-4 object-contain" />
-            <!-- TEXT -->
-            <p class="text-white text-lg font-semibold mb-1">
-                {{ loadingMessage }}
-            </p>
+  <div v-if="isLoading" class="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center text-white text-lg">
+    <div class="flex flex-col items-center">
+      <!-- LOGO -->
+      <img src="/loading.gif" alt="Loading..." class="w-32 h-32 mb-4 object-contain" />
+      <!-- TEXT -->
+      <p class="text-white text-lg font-semibold mb-1">
+        {{ loadingMessage }}
+      </p>
 
-            <!-- Mô tả phụ -->
-            <p class="text-white text-sm" v-if="loadingStatus === 'processing'">
-                Vui lòng không tắt trình duyệt hoặc làm mới trang.
-            </p>
+      <!-- Mô tả phụ -->
+      <p class="text-white text-sm" v-if="loadingStatus === 'processing'">
+        Vui lòng không tắt trình duyệt hoặc làm mới trang.
+      </p>
 
-            <!-- Nút Xem đơn hàng -->
-            <button v-if="loadingStatus !== 'processing'" @click="isLoading = false"
-                class="mt-4 px-4 py-2 bg-white root-text rounded hover:bg-gray-100 transition">
-                Xem đơn hàng </button>
-        </div>
+      <!-- Nút Xem đơn hàng -->
+      <button v-if="loadingStatus !== 'processing'" @click="isLoading = false"
+        class="mt-4 px-4 py-2 bg-white root-text rounded hover:bg-gray-100 transition">
+        Xem đơn hàng </button>
     </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch, onMounted,inject } from "vue";
+import { ref, reactive, computed, watch, onMounted, inject } from "vue";
 const { public: { apiBaseUrl } } = useRuntimeConfig();
 
 const cartItems = ref([])
@@ -211,7 +239,7 @@ const form = reactive({
   province_id: "",
   district_id: "",
   ward_code: "",
-  payment_method: "COD",
+  payment_method: "BANK",
   invoice_required: false,
   shipping_fee: 0,
   vat_rate: 10,
@@ -238,8 +266,8 @@ Object.assign(errorFields.value, {
 });
 
 const initialForm = {
-    discount_code: '',
-    discount_amount: 0,
+  discount_code: '',
+  discount_amount: 0,
 };
 
 //const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -283,17 +311,17 @@ onMounted(() => loadProvinces());
 
 watch(() => form.province_id, (newVal) => {
 
-    form.district_id = ''
-    form.ward_code = ''
-    form.shipping_address = ''
-    form.shipping_fee = 0
+  form.district_id = ''
+  form.ward_code = ''
+  form.shipping_address = ''
+  form.shipping_fee = 0
 
-    districtName.value = ''
-    wardName.value = ''
+  districtName.value = ''
+  wardName.value = ''
 
-    districts.value = []
-    wards.value = []
-    loadDistricts(newVal)
+  districts.value = []
+  wards.value = []
+  loadDistricts(newVal)
 })
 
 const shipping_fee_error = ref(false)
@@ -301,62 +329,62 @@ const shipping_fee_error_Message = ref('')
 
 
 watch(() => form.district_id, async (newVal) => {
-    form.ward_code = ''
-    form.shipping_address = ''
-    form.shipping_fee = 0
-    wardName.value = ''
-    wards.value = []
-    await loadWards(newVal)
+  form.ward_code = ''
+  form.shipping_address = ''
+  form.shipping_fee = 0
+  wardName.value = ''
+  wards.value = []
+  await loadWards(newVal)
 
-    shipping_fee_error.value = false
-    shipping_fee_error_Message.value = ''
-    // 👉 Check đủ dữ liệu thì mới gọi API
-    provinceName.value = provinces.value.find(p => p.PROVINCE_ID === form.province_id)?.PROVINCE_NAME || ''
-    districtName.value = districts.value.find(d => d.DISTRICT_ID === form.district_id)?.DISTRICT_NAME || ''
-    wardName.value = wards.value.find(w => w.WARDS_ID === form.ward_code)?.WARDS_NAME || ''
+  shipping_fee_error.value = false
+  shipping_fee_error_Message.value = ''
+  // 👉 Check đủ dữ liệu thì mới gọi API
+  provinceName.value = provinces.value.find(p => p.PROVINCE_ID === form.province_id)?.PROVINCE_NAME || ''
+  districtName.value = districts.value.find(d => d.DISTRICT_ID === form.district_id)?.DISTRICT_NAME || ''
+  wardName.value = wards.value.find(w => w.WARDS_ID === form.ward_code)?.WARDS_NAME || ''
 
-    if (form.province_id && form.district_id && provinceName.value && districtName.value) {
-        try {
-            const response = await $fetch(`${apiBaseUrl}/viettel/shipfee`, {
-                method: 'POST',
-                body: {
-                    quantity: totalQuantity,
-                    total_price_before_tax: subtotal.value,
-                    vat: vatAmount.value,
-                    discount: form.discount_amount,
-                    receiver_province: form.province_id,
-                    receiver_district: form.district_id,
-                }
-            })
-
-            form.shipping_fee = response.data?.MONEY_TOTAL || 0
-        } catch (err) {
-
-            form.shipping_fee = 0
-            shipping_fee_error.value = true
-            shipping_fee_error_Message.value = 'Không thể tính phí vận chuyển tại thời điểm này. Phí vận chuyển sẽ được thông báo sau khi xác nhận đơn.'
-
+  if (form.province_id && form.district_id && provinceName.value && districtName.value) {
+    try {
+      const response = await $fetch(`${apiBaseUrl}/viettel/shipfee`, {
+        method: 'POST',
+        body: {
+          quantity: totalQuantity,
+          total_price_before_tax: subtotal.value,
+          vat: vatAmount.value,
+          discount: form.discount_amount,
+          receiver_province: form.province_id,
+          receiver_district: form.district_id,
         }
+      })
+
+      form.shipping_fee = response.data?.MONEY_TOTAL || 0
+    } catch (err) {
+
+      form.shipping_fee = 0
+      shipping_fee_error.value = true
+      shipping_fee_error_Message.value = 'Tạm thời chưa thể hiển thị phí vận chuyển, shop sẽ báo lại sau khi xác nhận đơn nhé!'
+
     }
+  }
 })
 
 
 watch(
-    [() => form.ward_code, () => form.district_id, () => form.province_id, () => form.address_detail],
-    async () => {
-        // 🔄 Cập nhật tên tương ứng
-        provinceName.value = provinces.value.find(p => p.PROVINCE_ID === form.province_id)?.PROVINCE_NAME || ''
-        districtName.value = districts.value.find(d => d.DISTRICT_ID === form.district_id)?.DISTRICT_NAME || ''
-        wardName.value = wards.value.find(w => w.WARDS_ID === form.ward_code)?.WARDS_NAME || ''
+  [() => form.ward_code, () => form.district_id, () => form.province_id, () => form.address_detail],
+  async () => {
+    // 🔄 Cập nhật tên tương ứng
+    provinceName.value = provinces.value.find(p => p.PROVINCE_ID === form.province_id)?.PROVINCE_NAME || ''
+    districtName.value = districts.value.find(d => d.DISTRICT_ID === form.district_id)?.DISTRICT_NAME || ''
+    wardName.value = wards.value.find(w => w.WARDS_ID === form.ward_code)?.WARDS_NAME || ''
 
-        // ✅ Chỉ xử lý khi đủ cả 3 giá trị
-        if (provinceName.value && districtName.value && wardName.value) {
-            form.shipping_address = `${form.address_detail}, ${toTitleCase(wardName.value)}, ${toTitleCase(provinceName.value)}`
+    // ✅ Chỉ xử lý khi đủ cả 3 giá trị
+    if (provinceName.value && districtName.value && wardName.value) {
+      form.shipping_address = `${form.address_detail}, ${toTitleCase(wardName.value)}, ${toTitleCase(provinceName.value)}`
 
-        } else {
-            form.shipping_address = ''
-        }
+    } else {
+      form.shipping_address = ''
     }
+  }
 )
 
 // === Giảm giá ===
@@ -388,111 +416,111 @@ const applyDiscount = async () => {
 
 // === Submit ===
 const submitOrder = () => {
-    // Reset tất cả lỗi
-    Object.keys(errorFields.value).forEach(key => errorFields.value[key] = false);
+  // Reset tất cả lỗi
+  Object.keys(errorFields.value).forEach(key => errorFields.value[key] = false);
 
-    let hasError = false;
+  let hasError = false;
 
-    // Check các trường bắt buộc chung
-    if (!form.buyer_name) {
-        errorFields.value.buyer_name = true;
-        hasError = true;
+  // Check các trường bắt buộc chung
+  if (!form.buyer_name) {
+    errorFields.value.buyer_name = true;
+    hasError = true;
+  }
+  if (!form.receiver_email) {
+    errorFields.value.receiver_email = true;
+    hasError = true;
+  } else {
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.receiver_email);
+    if (!isValidEmail) {
+      alert("Email không hợp lệ.");
+      errorFields.value.receiver_email = true;
+      hasError = true;
+      return;
     }
-    if (!form.receiver_email) {
-        errorFields.value.receiver_email = true;
-        hasError = true;
-    } else {
-        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.receiver_email);
-        if (!isValidEmail) {
-            alert("Email không hợp lệ.");
-            errorFields.value.receiver_email = true;
-            hasError = true;
-            return;
-        }
-    }
-    if (!form.receiver_phone) {
-        errorFields.value.receiver_phone = true;
-        hasError = true;
+  }
+  if (!form.receiver_phone) {
+    errorFields.value.receiver_phone = true;
+    hasError = true;
 
-    }
-    if (!form.address_detail) {
-        errorFields.value.address_detail = true;
+  }
+  if (!form.address_detail) {
+    errorFields.value.address_detail = true;
+    hasError = true;
+  }
+  // Kiểm tra địa chỉ (các trường select)
+  if (!form.province_id) {
+    errorFields.value.province_id = true;
+    hasError = true;
+  }
+  if (!form.district_id) {
+    errorFields.value.district_id = true;
+    hasError = true;
+  }
+  if (!form.ward_code) {
+    errorFields.value.ward_code = true;
+    hasError = true;
+  }
+  // Nếu yêu cầu xuất hóa đơn, check thêm
+  if (form.invoice_required) {
+    ['buyer_company', 'company_address', 'buyer_tax_code'].forEach(field => {
+      if (!form[field]) {
+        errorFields.value[field] = true;
         hasError = true;
-    }
-    // Kiểm tra địa chỉ (các trường select)
-    if (!form.province_id) {
-        errorFields.value.province_id = true;
-        hasError = true;
-    }
-    if (!form.district_id) {
-        errorFields.value.district_id = true;
-        hasError = true;
-    }
-    if (!form.ward_code) {
-        errorFields.value.ward_code = true;
-        hasError = true;
-    }
-    // Nếu yêu cầu xuất hóa đơn, check thêm
-    if (form.invoice_required) {
-        ['buyer_company', 'company_address', 'buyer_tax_code'].forEach(field => {
-            if (!form[field]) {
-                errorFields.value[field] = true;
-                hasError = true;
-            }
-        });
-    }
-    if (hasError) {
-        alert('Vui lòng điền đầy đủ thông tin bắt buộc.');
-        return;
-    }
-    // Gửi dữ liệu
-    handleCheckoutSubmit({
-      ...form,
-      total_price: totalPrice.value,
-      total_price_before_tax: subtotal.value,
-      vat_amount: vatAmount.value,
-      province_id: form.province_id,
-      district_id: form.district_id,
-      ward_code: form.ward_code,
-      cartItems: cartItems.value // ✅ quan trọng
+      }
     });
+  }
+  if (hasError) {
+    alert('Vui lòng điền đầy đủ thông tin bắt buộc.');
+    return;
+  }
+  // Gửi dữ liệu
+  handleCheckoutSubmit({
+    ...form,
+    total_price: totalPrice.value,
+    total_price_before_tax: subtotal.value,
+    vat_amount: vatAmount.value,
+    province_id: form.province_id,
+    district_id: form.district_id,
+    ward_code: form.ward_code,
+    cartItems: cartItems.value // ✅ quan trọng
+  });
 
-    form.discount_code = initialForm.discount_code;
-    form.discount_amount = initialForm.discount_amount;
-    discountMessage.value = '';
-    discountSuccess.value = false;
-    emit('close');
-  };
+  form.discount_code = initialForm.discount_code;
+  form.discount_amount = initialForm.discount_amount;
+  discountMessage.value = '';
+  discountSuccess.value = false;
+  emit('close');
+};
 
-  const isLoading = ref(false);
-  const loadingStatus = ref('processing'); // 'processing', 'success', 'error'
-  const loadingMessage = ref('Đang xử lý đơn hàng...');
+const isLoading = ref(false);
+const loadingStatus = ref('processing'); // 'processing', 'success', 'error'
+const loadingMessage = ref('Đang xử lý đơn hàng...');
 
-  console.log("Start");
-  const handleCheckoutSubmit = (orderData) => {
-    console.log(orderData);
-    isLoading.value = true;
-    fetch(`${apiBaseUrl}/checkout`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData)
+console.log("Start");
+const handleCheckoutSubmit = (orderData) => {
+  console.log(orderData);
+  isLoading.value = true;
+  fetch(`${apiBaseUrl}/checkout`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(orderData)
+  })
+    .then(async res => {
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || "Lỗi không xác định")
+      }
+
+      loadingStatus.value = 'success';
+      loadingMessage.value = "Đặt hàng thành công!";
+
+      clearCart();
+
     })
-        .then(async res => {
-            const data = await res.json()
-            if (!res.ok) {
-                throw new Error(data.error || "Lỗi không xác định")
-            }
-
-            loadingStatus.value = 'success';
-            loadingMessage.value = "Đặt hàng thành công!";
-
-            clearCart();
-   
-        })
-        .catch(err => {
-            loadingStatus.value = 'error';
-            loadingMessage.value = 'Lỗi khi đặt hàng: ' + err.message;
-        })
+    .catch(err => {
+      loadingStatus.value = 'error';
+      loadingMessage.value = 'Lỗi khi đặt hàng: ' + err.message;
+    })
 };
 
 
